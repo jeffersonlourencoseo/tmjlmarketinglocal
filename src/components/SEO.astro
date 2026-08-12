@@ -1,0 +1,88 @@
+---
+import { siteConfig } from "../data/config";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
+  canonical?: string;
+  noindex?: boolean;
+  article?: {
+    pubDate?: Date;
+    updatedDate?: Date;
+    author?: string;
+    tags?: string[];
+  };
+  jsonLd?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = siteConfig.defaultDescription,
+  image = siteConfig.og.image,
+  type = siteConfig.og.type,
+  canonical,
+  noindex = false,
+  article,
+  jsonLd = []
+} = Astro.props;
+
+const siteUrl = siteConfig.url.replace(/\/$/, "");
+const pageTitle = title ? `${title} | ${siteConfig.name}` : siteConfig.defaultTitle;
+const canonicalUrl = canonical ? canonical : `${siteUrl}${Astro.url.pathname}`;
+const ogImage = image.startsWith("http") ? image : `${siteUrl}${image}`;
+const ogType = article ? "article" : type;
+
+const robots = noindex ? "noindex, nofollow" : "index, follow";
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="generator" content={Astro.generator} />
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={siteConfig.keywords.join(", ")} />
+<meta name="robots" content={robots} />
+<meta name="author" content={siteConfig.name} />
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content={siteConfig.locale} />
+<meta property="og:site_name" content={siteConfig.name} />
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- Article metadata -->
+{
+  article?.pubDate && (
+    <meta property="article:published_time" content={article.pubDate.toISOString()} />
+  )
+}
+{
+  article?.updatedDate && (
+    <meta property="article:modified_time" content={article.updatedDate.toISOString()} />
+  )
+}
+{article?.author && <meta property="article:author" content={article.author} />}
+{
+  article?.tags?.map((tag) => (
+    <meta property="article:tag" content={tag} />
+  ))
+}
+
+<!-- Structured data (JSON-LD) -->
+{
+  jsonLd.map((schema) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))
+}

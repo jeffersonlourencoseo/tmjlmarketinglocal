@@ -1,0 +1,56 @@
+---
+const diferenciais = [
+  {
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>`,
+    title: "Foco em SEO local",
+    description: "Otimizamos cada detalhe do perfil para que sua empresa apareça quando o cliente buscar no Google e no Maps pela sua região no Rio de Janeiro."
+  },
+  {
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>`,
+    title: "Resultados mensuráveis",
+    description: "Acompanhamos visualizações, ligações, pedidos de rota e posição no mapa para mostrar a evolução real do seu Google Meu Negócio."
+  },
+  {
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>`,
+    title: "Fotos 360° e tour virtual",
+    description: "Publicamos imagens esféricas e tours navegáveis diretamente no perfil para que o cliente conheça seu ambiente antes de sair de casa."
+  },
+  {
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4m-8-4H7a2 2 0 01-2-2v-6a2 2 0 012-2h2V4m0 0h8m-8 0V2.5A2.5 2.5 0 019.5 0h5A2.5 2.5 0 0117 2.5V4m-8 0v8h8V4m-8 0H7m9 0h2" /></svg>`,
+    title: "Atendimento próximo",
+    description: "Você fala direto com quem executa o trabalho. Sem robôs, sem desculpas: tiramos dúvidas rápido e ajustamos a estratégia conforme o resultado."
+  }
+];
+---
+
+<section id="diferenciais" class="relative py-28 lg:py-36 bg-secondary">
+  <div class="container mx-auto px-6 lg:px-12">
+    <div class="max-w-3xl mb-20 lg:mb-24">
+      <p class="text-accent font-semibold tracking-[0.2em] uppercase text-sm mb-4">
+        Por que a TMJL
+      </p>
+      <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary leading-tight mb-6">
+        Diferenciais que geram resultados reais
+      </h2>
+      <p class="text-lg text-muted">
+        Cada ação é pensada para aumentar a visibilidade do seu negócio no Google e converter buscas em ligações.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+      {diferenciais.map((item) => (
+        <div class="group p-8 lg:p-10 bg-surface rounded-2xl border border-gold hover:border-accent/40 transition-colors duration-200">
+          <div class="w-14 h-14 flex items-center justify-center rounded-full bg-primary text-accent mb-8">
+            <Fragment set:html={item.icon} />
+          </div>
+          <h3 class="font-display text-xl lg:text-2xl font-bold text-primary mb-4">
+            {item.title}
+          </h3>
+          <p class="text-muted leading-relaxed">
+            {item.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

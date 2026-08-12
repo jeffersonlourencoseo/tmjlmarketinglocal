@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Diferenciais from "../sections/Diferenciais.astro";
+import SobreResumo from "../sections/SobreResumo.astro";
+import Services from "../sections/Services.astro";
+import Portfolio360 from "../sections/Portfolio360.astro";
+import Depoimentos from "../sections/Depoimentos.astro";
+import ContatoCTA from "../sections/ContatoCTA.astro";
+import WhatsAppFloat from "../components/WhatsAppFloat.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout>
+  <Header />
+  <main class="bg-secondary">
+    <Hero />
+    <Diferenciais />
+    <SobreResumo />
+    <Services />
+    <Portfolio360 />
+    <Depoimentos />
+    <ContatoCTA />
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+</Layout>

@@ -1,0 +1,157 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ContatoCTA from "../sections/ContatoCTA.astro";
+
+const valores = [
+  {
+    title: "Missão",
+    description: "Ajudar empresas do Rio de Janeiro a serem encontradas no Google Meu Negócio, convertendo buscas locais em clientes reais."
+  },
+  {
+    title: "Visão",
+    description: "Ser referência em marketing local no Rio: a parceira que pequenos e médios negócios procuram quando querem crescer no digital."
+  },
+  {
+    title: "Valores",
+    description: "Transparência, resultado mensurável, atendimento humano e compromisso com o crescimento de cada cliente."
+  }
+];
+
+const diferenciais = [
+  "Estratégia 100% focada em SEO local e Google Maps",
+  "Relatórios mensais com dados reais de visualizações, ligações e rotas",
+  "Gestão ética de avaliações e reputação online",
+  "Fotos 360° e tours virtuais publicados no perfil",
+  "Atendimento direto com quem executa o trabalho"
+];
+---
+
+<Layout
+  title="Sobre a TMJL Marketing Local | Google Meu Negócio Rio de Janeiro"
+  description="Conheça a TMJL Marketing Local, especialista em criação e otimização de perfis no Google Meu Negócio para empresas do Rio de Janeiro.">
+  <Header />
+  <main class="pt-24 bg-secondary">
+    <!-- Hero -->
+    <section class="relative py-28 lg:py-36 bg-primary overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[140px] -translate-y-1/2 translate-x-1/3"></div>
+      </div>
+      <div class="container mx-auto px-6 lg:px-12 relative z-10">
+        <div class="max-w-4xl">
+          <p class="text-accent font-semibold tracking-[0.2em] uppercase text-sm mb-6">
+            Quem somos
+          </p>
+          <h1 class="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-8">
+            Especialistas em fazer sua empresa ser encontrada
+          </h1>
+          <p class="text-lg md:text-xl text-white/70 max-w-2xl leading-relaxed">
+            A TMJL Marketing Local cria e otimiza perfis no Google Meu Negócio para negócios do Rio de Janeiro. Trabalho técnico, mensurável e focado em resultado.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nossa História -->
+    <section class="py-28 lg:py-36">
+      <div class="container mx-auto px-6 lg:px-12">
+        <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+          <div class="max-w-2xl">
+            <p class="text-accent font-semibold tracking-[0.2em] uppercase text-sm mb-4">
+              Nossa história
+            </p>
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-primary leading-tight mb-8">
+              Nasceu da vontade de gerar resultado real
+            </h2>
+            <div class="space-y-6 text-lg text-muted leading-relaxed">
+              <p>
+                A TMJL Marketing Local nasceu com um propósito claro: ajudar pequenas e médias empresas do Rio de Janeiro a conquistarem visibilidade real no Google Meu Negócio.
+              </p>
+              <p>
+                Não acreditamos em promessas vazias. Nosso trabalho é técnico, mensurável e focado em resultado: mais ligações, mais direções no mapa e mais clientes qualificados.
+              </p>
+              <p>
+                Atuamos com criação de perfis, otimização local, gestão de avaliações, fotos 360° e estratégia de conteúdo para o Google Maps. Cada ação é pensada para ranqueamento orgânico e conversão.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-8 lg:p-10 bg-primary rounded-2xl text-white">
+            <h3 class="font-display text-2xl font-bold text-accent mb-8">
+              O que nos move
+            </h3>
+            <ul class="space-y-5">
+              {diferenciais.map((item) => (
+                <li class="flex items-start gap-4">
+                  <svg class="w-6 h-6 text-accent shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-lg leading-relaxed">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Missão, Visão, Valores -->
+    <section class="relative py-28 lg:py-36 bg-surface">
+      <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-secondary to-surface"></div>
+
+      <div class="container mx-auto px-6 lg:px-12 relative">
+        <div class="max-w-3xl mb-20 lg:mb-24 pt-8">
+          <p class="text-accent font-semibold tracking-[0.2em] uppercase text-sm mb-4">
+            Propósito
+          </p>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-primary leading-tight">
+            Missão, Visão e Valores
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 lg:gap-10">
+          {valores.map((item) => (
+            <div class="p-8 lg:p-10 bg-secondary rounded-2xl border border-gold">
+              <h3 class="font-display text-2xl font-bold text-primary mb-4">
+                {item.title}
+              </h3>
+              <p class="text-muted leading-relaxed">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Compromisso -->
+    <section class="py-28 lg:py-36 bg-secondary">
+      <div class="container mx-auto px-6 lg:px-12">
+        <div class="max-w-4xl mx-auto text-center">
+          <p class="text-accent font-semibold tracking-[0.2em] uppercase text-sm mb-4">
+            Compromisso
+          </p>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-primary leading-tight mb-8">
+            Transparência e resultado em primeiro lugar
+          </h2>
+          <p class="text-lg text-muted leading-relaxed mb-10">
+            Cada cliente recebe acompanhamento mensal com métricas reais do Google Meu Negócio. Sabemos que o que importa não é só aparecer: é gerar ligações, visitas e vendas.
+          </p>
+          <a
+            href="/contato/"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all duration-200"
+          >
+            Falar com a TMJL
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <ContatoCTA />
+  </main>
+  <Footer />
+</Layout>

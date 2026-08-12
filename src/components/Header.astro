@@ -1,0 +1,137 @@
+---
+import { Image } from "astro:assets";
+import logoImage from "../assets/logo-transparent.png";
+import { siteConfig } from "../data/config";
+
+const pathname = Astro.url.pathname;
+
+const navLinks = [
+  { href: "/", label: "Início" },
+  { href: "/servicos/", label: "Serviços" },
+  { href: "/fotos-360/", label: "Fotos 360°" },
+  { href: "/blog/", label: "Blog" },
+  { href: "/sobre/", label: "Sobre" },
+  { href: "/contato/", label: "Contato" }
+];
+
+function isActive(href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname.startsWith(href);
+}
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-xl border-b border-white/10">
+  <div class="container mx-auto px-6 lg:px-12">
+    <div class="flex items-center justify-between h-24">
+      <a href="/" class="flex items-center gap-3 group" aria-label="TMJL Marketing Local">
+        <Image
+          src={logoImage}
+          alt="TMJL Marketing Local"
+          width={72}
+          height={72}
+          class="h-16 w-auto object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-200"
+        />
+        <span class="text-white font-semibold text-lg tracking-tight hidden sm:block">
+          TMJL
+        </span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-10" aria-label="Navegação principal">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              "text-sm font-medium transition-colors duration-200 hover:scale-105 active:scale-95 inline-block",
+              isActive(link.href) ? "text-accent" : "text-white/90 hover:text-accent"
+            ]}
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <a
+        href={siteConfig.contact.whatsappLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden md:inline-flex items-center gap-2 px-7 py-3 bg-accent text-primary text-sm font-semibold rounded-full hover:bg-accent-light hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg shadow-accent/20"
+      >
+        Falar no WhatsApp
+      </a>
+
+      <button
+        id="menu-toggle"
+        type="button"
+        class="md:hidden p-2 text-white hover:text-accent hover:scale-105 active:scale-95 transition-all duration-200"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+      >
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <mobile-menu
+    id="mobile-menu"
+    class="fixed inset-0 z-[999] bg-primary transform translate-x-full transition-transform duration-300 md:hidden"
+    aria-hidden="true"
+  >
+    <div class="absolute top-0 right-0 p-6">
+      <button
+        id="menu-close"
+        type="button"
+        class="text-white hover:text-accent hover:scale-110 active:scale-95 transition-all duration-200"
+        aria-label="Fechar menu"
+      >
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex flex-col items-center justify-center h-full gap-8 px-6">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            "text-3xl font-semibold transition-all duration-200 hover:scale-105 active:scale-95 mobile-link",
+            isActive(link.href) ? "text-accent" : "text-white hover:text-accent"
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href={siteConfig.contact.whatsappLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-6 px-8 py-4 bg-accent text-primary text-lg font-bold rounded-full hover:bg-accent-light hover:scale-105 active:scale-95 transition-all duration-200 shadow-xl shadow-accent/30 mobile-link"
+      >
+        Falar no WhatsApp
+      </a>
+    </div>
+  </mobile-menu>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const close = document.getElementById('menu-close');
+  const menu = document.getElementById('mobile-menu');
+  const links = menu.querySelectorAll('.mobile-link');
+  let open = false;
+
+  function setMenuState(isOpen) {
+    open = isOpen;
+    menu.classList.toggle('translate-x-full', !open);
+    menu.classList.toggle('translate-x-0', open);
+    menu.setAttribute('aria-hidden', String(!open));
+    toggle.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  toggle?.addEventListener('click', () => setMenuState(!open));
+  close?.addEventListener('click', () => setMenuState(false));
+  links.forEach(link => link.addEventListener('click', () => setMenuState(false)));
+</script>

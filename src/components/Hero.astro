@@ -1,0 +1,50 @@
+---
+import { siteConfig } from "../data/config";
+
+const whatsappLink = siteConfig.contact.whatsappLink;
+---
+
+<section id="inicio" class="relative min-h-screen flex items-center pt-24 overflow-hidden bg-primary">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-0 right-0 w-[700px] h-[700px] bg-accent/10 rounded-full blur-[140px] -translate-y-1/2 translate-x-1/3"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] translate-y-1/3 -translate-x-1/4"></div>
+  </div>
+
+  <div class="container mx-auto px-6 lg:px-12 relative z-10 py-28 lg:py-36">
+    <div class="max-w-4xl">
+      <p class="text-accent font-semibold tracking-[0.2em] uppercase text-sm mb-8">
+        Especialistas em Google Meu Negócio
+      </p>
+
+      <h1 class="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-[1.05] mb-12">
+        Sua empresa no topo do
+        <span class="text-gradient-gold">Google Meu Negócio</span>
+      </h1>
+
+      <p class="text-lg md:text-xl text-white/70 max-w-2xl mb-14 leading-relaxed">
+        A TMJL Marketing Local cria e otimiza perfis de negócios locais no Rio de Janeiro para você aparecer no momento exato em que o cliente está procurando.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-5">
+        <a
+          href={whatsappLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent text-primary font-bold rounded-full hover:bg-accent-light transition-all duration-200 hover:shadow-[0_0_40px_-10px_rgba(201,162,39,0.5)]"
+        >
+          Quero aparecer no Google
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+
+        <a
+          href="#servicos"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-semibold rounded-full hover:bg-white/10 transition-all duration-200"
+        >
+          Ver serviços
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,137 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { siteConfig } from "../../data/config";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const allPosts = await getCollection("blog");
+const relatedPosts = allPosts
+  .filter((p) => p.id !== post.id)
+  .filter((p) => p.data.tags.some((tag) => post.data.tags.includes(tag)))
+  .slice(0, 3);
+
+const fallbackPosts = allPosts
+  .filter((p) => p.id !== post.id)
+  .filter((p) => !relatedPosts.find((r) => r.id === p.id))
+  .slice(0, 3 - relatedPosts.length);
+
+const otherPosts = [...relatedPosts, ...fallbackPosts];
+
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
+const whatsappLink = siteConfig.contact.whatsappLink;
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  article={{
+    pubDate: post.data.pubDate,
+    updatedDate: post.data.updatedDate,
+    author: post.data.author,
+    tags: post.data.tags
+  }}>
+  <Header />
+  <main class="pt-24 bg-secondary">
+    <article class="py-28 lg:py-36">
+      <div class="container mx-auto px-6 lg:px-12">
+        <div class="max-w-7xl mx-auto">
+          <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
+            <!-- Conteúdo principal -->
+            <div class="lg:col-span-8">
+              <div class="flex flex-wrap gap-2 mb-6">
+                {post.data.tags.map((tag) => (
+                  <a
+                    href="/blog/"
+                    class="px-3 py-1 bg-primary/5 text-primary text-xs font-semibold uppercase tracking-wider rounded-full hover:bg-primary/10 transition-colors"
+                  >
+                    {tag}
+                  </a>
+                ))}
+              </div>
+
+              <p class="text-muted mb-4">
+                Publicado em {formatDate(post.data.pubDate)} por {post.data.author}
+              </p>
+
+              <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary leading-tight mb-16">
+                {post.data.title}
+              </h1>
+
+              <div class="prose prose-lg prose-slate max-w-none">
+                <Content />
+              </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="lg:col-span-4 space-y-8">
+              <!-- CTA de orçamento -->
+              <div class="p-8 lg:p-10 bg-primary rounded-2xl text-white">
+                <h3 class="font-display text-2xl font-bold text-accent mb-4">
+                  Quer aparecer no Google?
+                </h3>
+                <p class="text-white/70 mb-8 leading-relaxed">
+                  Fale com a TMJL Marketing Local e receba uma proposta personalizada para o seu Google Meu Negócio no Rio de Janeiro.
+                </p>
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-accent text-primary font-bold rounded-full hover:bg-accent-light transition-all duration-200"
+                >
+                  Solicitar orçamento
+                </a>
+              </div>
+
+              <!-- Posts relacionados -->
+              {otherPosts.length > 0 && (
+                <div class="p-8 lg:p-10 bg-surface rounded-2xl border border-gold">
+                  <h3 class="font-display text-xl font-bold text-primary mb-6">
+                    Outras dicas
+                  </h3>
+                  <ul class="space-y-6">
+                    {otherPosts.map((related) => (
+                      <li>
+                        <a
+                          href={`/blog/${related.id}/`}
+                          class="group block"
+                        >
+                          <p class="text-xs text-muted uppercase tracking-wider mb-2">
+                            {formatDate(related.data.pubDate)}
+                          </p>
+                          <h4 class="font-semibold text-primary group-hover:text-accent transition-colors leading-snug">
+                            {related.data.title}
+                          </h4>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </aside>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Layout>

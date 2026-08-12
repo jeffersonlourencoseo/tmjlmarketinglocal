@@ -1,0 +1,61 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ContactForm from "../components/ContactForm.astro";
+import { siteConfig } from "../data/config";
+---
+
+<Layout
+  title="Contato | TMJL Marketing Local — Rio de Janeiro"
+  description="Entre em contato com a TMJL Marketing Local. Atendimento no Rio de Janeiro para criação e otimização de Google Meu Negócio.">
+  <Header />
+  <main class="pt-24 bg-secondary">
+    <section id="contato" class="py-28 lg:py-36">
+      <div class="container mx-auto px-6 lg:px-12">
+        <div class="max-w-3xl mb-16 lg:mb-20">
+          <p class="text-accent font-semibold tracking-widest uppercase text-sm mb-4">
+            Contato
+          </p>
+          <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary leading-tight mb-6">
+            Vamos colocar sua empresa no mapa
+          </h1>
+          <p class="text-lg text-muted">
+            Preencha o formulário ou fale direto pelo WhatsApp. Respondemos em até 24 horas úteis.
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-5 gap-12 lg:gap-16">
+          <div class="lg:col-span-2 space-y-8">
+            <div class="p-8 lg:p-10 bg-primary rounded-2xl text-white">
+              <h2 class="font-display text-2xl font-bold mb-6 text-accent">Informações de contato</h2>
+              <ul class="space-y-5">
+                <li>
+                  <p class="text-sm text-white/50 uppercase tracking-wider mb-1">WhatsApp</p>
+                  <a href={`https://wa.me/${siteConfig.contact.whatsapp}`} target="_blank" rel="noopener noreferrer" class="text-lg font-medium hover:text-accent transition-colors">
+                    {siteConfig.contact.phone}
+                  </a>
+                </li>
+                <li>
+                  <p class="text-sm text-white/50 uppercase tracking-wider mb-1">E-mail</p>
+                  <a href={`mailto:${siteConfig.contact.email}`} class="text-lg font-medium hover:text-accent transition-colors">
+                    {siteConfig.contact.email}
+                  </a>
+                </li>
+                <li>
+                  <p class="text-sm text-white/50 uppercase tracking-wider mb-1">Endereço</p>
+                  <p class="text-lg font-medium leading-relaxed">{siteConfig.contact.address}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="lg:col-span-3 p-8 lg:p-10 bg-surface rounded-2xl border border-gold shadow-sm">
+            <ContactForm />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
