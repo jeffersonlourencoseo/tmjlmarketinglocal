@@ -9,10 +9,6 @@ const { number, title, description } = Astro.props;
 ---
 
 <article class="group relative h-full p-10 lg:p-12 bg-surface rounded-2xl border border-gold hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5 flex flex-col">
-  <div class="absolute top-8 right-8 font-display text-5xl lg:text-6xl text-accent/10 group-hover:text-accent/20 transition-colors duration-300">
-    {number}
-  </div>
-
   <div class="relative flex flex-col flex-grow">
     <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
       <span class="text-accent font-display text-xl font-bold">{number}</span>

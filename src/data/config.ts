@@ -4,7 +4,7 @@
  */
 
 // URL base do site em produção. Altere aqui e em astro.config.mjs ao publicar.
-export const SITE_URL = "https://www.tmjlmarketinglocal.com.br";
+export const SITE_URL = "https://tmjlmarketinglocal.vercel.app";
 
 export const siteConfig = {
   name: "TMJL Marketing Local",

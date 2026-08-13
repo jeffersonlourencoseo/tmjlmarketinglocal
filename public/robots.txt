@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.tmjlmarketinglocal.com.br/sitemap-index.xml
+Sitemap: https://tmjlmarketinglocal.vercel.app/sitemap-index.xml

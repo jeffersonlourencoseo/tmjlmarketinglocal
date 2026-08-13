@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://www.tmjlmarketinglocal.com.br',
+  site: 'https://tmjlmarketinglocal.vercel.app',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()]
