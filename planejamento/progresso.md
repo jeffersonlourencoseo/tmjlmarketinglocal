@@ -11,5 +11,6 @@
 - [x] Domínio www.jeffersonlourenco.com.br no ar pela Vercel (DNS no Registro.br)
 - [x] Search Console: propriedade de Domínio validada por TXT (20 nov. 2026) e sitemap-index.xml enviado
 - [x] GA4: propriedade "TMJL Marketing Local" criada (G-1P9RWBPCT0), ga4Id preenchido; eventos clique_whatsapp, clique_telefone e envio_formulario já no código
-- [ ] Registrar local_botao como dimensão personalizada e marcar eventos como principais no GA4
+- [x] Dimensão personalizada "Local do botão" (local_botao) criada no GA4; bug do gtag global corrigido (commit "Corrige gtag global"); eventos clique_whatsapp, clique_telefone e envio_formulario recebidos no tempo real (testes com local_botao=teste)
+- [ ] A partir de 21 nov. 2026 (lista de eventos leva até 24h): GA4 → Administração → Eventos → estrela em clique_whatsapp, clique_telefone e envio_formulario
 - [ ] Rever a SERP das palavras principais em ~30 dias
