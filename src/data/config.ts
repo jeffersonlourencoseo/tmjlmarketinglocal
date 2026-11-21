@@ -14,7 +14,7 @@ export const site = {
   description:
     'Jefferson Lourenço e a TMJL Marketing Local: Google Meu Negócio, criação de sites e fotos 360°, com atendimento 100% remoto.',
   gmnUrl: 'https://maps.app.goo.gl/mrM76t3LSsV8MiGF8', // Perfil da TMJL no Google
-  ga4Id: '', // preencher com G-XXXXXXX quando a propriedade GA4 for criada
+  ga4Id: 'G-1P9RWBPCT0',
   contact: {
     phone: '(21) 99775-1577',
     phoneRaw: '+5521997751577',

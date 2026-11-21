@@ -8,6 +8,8 @@
 - [x] Construção: home, Google Meu Negócio, sites, fotos 360°, quem somos e /servicos/ com as palavras; blog com 7 artigos
 - [x] Publicado no GitHub jeffersonlourencoseo/tmjlmarketinglocal (commit 9feec48) e no ar em https://tmjlmarketinglocal.vercel.app
 - [x] Validação: PageSpeed celular 99/100/100/100 (home), computador 100/100/100/100 (/google-meu-negocio/); Rich Results 3 itens válidos; validator.schema.org 0 erros
-- [ ] Domínio www.jeffersonlourenco.com.br (comprado em 20 nov. 2026, aguardando DNS): adicionar no projeto da Vercel e apontar o DNS (canonical, sitemap e schema já usam esse domínio)
-- [ ] Depois do domínio: Google Search Console (verificar, enviar sitemap) e GA4 (preencher ga4Id em src/data/config.ts)
+- [x] Domínio www.jeffersonlourenco.com.br no ar pela Vercel (DNS no Registro.br)
+- [x] Search Console: propriedade de Domínio validada por TXT (20 nov. 2026) e sitemap-index.xml enviado
+- [x] GA4: propriedade "TMJL Marketing Local" criada (G-1P9RWBPCT0), ga4Id preenchido; eventos clique_whatsapp, clique_telefone e envio_formulario já no código
+- [ ] Registrar local_botao como dimensão personalizada e marcar eventos como principais no GA4
 - [ ] Rever a SERP das palavras principais em ~30 dias
