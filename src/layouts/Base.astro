@@ -67,7 +67,7 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
   {site.ga4Id && (
     <>
       <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${site.ga4Id}`}></script>
-      <script is:inline define:vars={{ id: site.ga4Id }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config',id);</script>
+      <script is:inline define:vars={{ id: site.ga4Id }}>window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments)};window.gtag('js',new Date());window.gtag('config',id);</script>
     </>
   )}
 </head>
