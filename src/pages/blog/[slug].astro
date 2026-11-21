@@ -1,137 +1,107 @@
 ---
-import { getCollection, render } from "astro:content";
-import Layout from "../../layouts/Layout.astro";
-import Header from "../../components/Header.astro";
-import Footer from "../../components/Footer.astro";
-import { siteConfig } from "../../data/config";
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Closing from '../../components/Closing.astro';
+import Icon from '../../components/Icon.astro';
+import { breadcrumb } from '../../data/schema';
+import { site, wa } from '../../data/config';
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  const posts = await getCollection('blog');
+  return posts.map((p) => ({ params: { slug: p.id }, props: { post: p } }));
 }
-
-const { post } = Astro.props;
-const { Content } = await render(post);
-
-const allPosts = await getCollection("blog");
-const relatedPosts = allPosts
-  .filter((p) => p.id !== post.id)
-  .filter((p) => p.data.tags.some((tag) => post.data.tags.includes(tag)))
-  .slice(0, 3);
-
-const fallbackPosts = allPosts
-  .filter((p) => p.id !== post.id)
-  .filter((p) => !relatedPosts.find((r) => r.id === p.id))
-  .slice(0, 3 - relatedPosts.length);
-
-const otherPosts = [...relatedPosts, ...fallbackPosts];
-
-function formatDate(date: Date) {
-  return new Intl.DateTimeFormat("pt-BR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(date);
-}
-
-const whatsappLink = siteConfig.contact.whatsappLink;
+const { post } = Astro.props as { post: CollectionEntry<'blog'> };
+const { Content, headings } = await render(post);
+const d = post.data;
+const fmt = (x: Date) => x.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const path = `/blog/${post.id}/`;
+const toc = headings.filter((h) => h.depth === 2);
+const servicos: Record<string, string> = { '/google-meu-negocio/': 'otimização de Google Meu Negócio', '/criacao-de-sites/': 'criação de sites profissionais', '/fotos-360/': 'fotos 360° e tour virtual' };
+const servicoNome = d.servico ? servicos[d.servico] : undefined;
+const schema = [
+  breadcrumb([{ name: 'Blog', path: '/blog/' }, { name: d.title, path }]),
+  {
+    '@type': 'BlogPosting',
+    headline: d.title,
+    description: d.description,
+    datePublished: d.pubDate.toISOString(),
+    dateModified: (d.updatedDate ?? d.pubDate).toISOString(),
+    author: { '@id': `${site.url}/#jefferson` },
+    publisher: { '@id': `${site.url}/#empresa` },
+    mainEntityOfPage: `${site.url}${path}`,
+    image: d.image ? `${site.url}${d.image}` : `${site.url}/og-image.jpg`,
+    keywords: d.tags.join(', '),
+    inLanguage: 'pt-BR',
+  },
+];
 ---
-
-<Layout
-  title={post.data.title}
-  description={post.data.description}
-  type="article"
-  article={{
-    pubDate: post.data.pubDate,
-    updatedDate: post.data.updatedDate,
-    author: post.data.author,
-    tags: post.data.tags
-  }}>
-  <Header />
-  <main class="pt-24 bg-secondary">
-    <article class="py-28 lg:py-36">
-      <div class="container mx-auto px-6 lg:px-12">
-        <div class="max-w-7xl mx-auto">
-          <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
-            <!-- Conteúdo principal -->
-            <div class="lg:col-span-8">
-              <div class="flex flex-wrap gap-2 mb-6">
-                {post.data.tags.map((tag) => (
-                  <a
-                    href="/blog/"
-                    class="px-3 py-1 bg-primary/5 text-primary text-xs font-semibold uppercase tracking-wider rounded-full hover:bg-primary/10 transition-colors"
-                  >
-                    {tag}
-                  </a>
-                ))}
-              </div>
-
-              <p class="text-muted mb-4">
-                Publicado em {formatDate(post.data.pubDate)} por {post.data.author}
-              </p>
-
-              <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary leading-tight mb-16">
-                {post.data.title}
-              </h1>
-
-              <div class="prose prose-lg prose-slate max-w-none">
-                <Content />
-              </div>
+<Base title={(d.title + ' | TMJL').length <= 60 ? `${d.title} | TMJL` : d.title} description={d.description} image={d.image} type="article" schema={schema}>
+  <article>
+    <header class="art-head">
+      <div class="container">
+        <nav aria-label="Você está em" class="crumbs"><a href="/">Início</a> / <a href="/blog/">Blog</a></nav>
+        <h1>{d.title}</h1>
+        <p class="lead">{d.description}</p>
+        <p class="by">
+          <img src="/img/jefferson-lourenco.webp" width="900" height="837" alt="" />
+          <span>Por <a href="/quem-somos/">{d.author}</a><br /><time class="caption" datetime={(d.updatedDate ?? d.pubDate).toISOString()}>{d.updatedDate ? `Atualizado em ${fmt(d.updatedDate)}` : fmt(d.pubDate)}</time></span>
+        </p>
+      </div>
+    </header>
+    {d.image && <div class="container"><img class="art-cover" src={d.image} width="1400" height="752" alt="" /></div>}
+    <div class="container art-body">
+      {toc.length > 2 && (
+        <aside class="toc" aria-label="Neste artigo">
+          <p class="caption">Neste artigo</p>
+          <ol>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+        </aside>
+      )}
+      <div class="article">
+        <Content />
+        <div class="art-cta entry">
+          <div class="art-cta__head">{servicoNome ? `Serviço: ${servicoNome}` : 'Fale comigo'}</div>
+          <div class="art-cta__body notebook">
+            <p><strong>Quer que eu cuide disso para você?</strong> Me manda o nome da empresa no WhatsApp e eu te digo o que fazer primeiro.</p>
+            <div class="actions">
+              <a class="btn btn--primary" href={wa(servicoNome ?? 'os serviços da TMJL')} target="_blank" rel="noopener" data-wa="artigo"><Icon name="whatsapp" /> Chamar no WhatsApp</a>
+              {d.servico && <a class="more" href={d.servico}>Ver o serviço</a>}
             </div>
-
-            <!-- Sidebar -->
-            <aside class="lg:col-span-4 space-y-8">
-              <!-- CTA de orçamento -->
-              <div class="p-8 lg:p-10 bg-primary rounded-2xl text-white">
-                <h3 class="font-display text-2xl font-bold text-accent mb-4">
-                  Quer aparecer no Google?
-                </h3>
-                <p class="text-white/70 mb-8 leading-relaxed">
-                  Fale com a TMJL Marketing Local e receba uma proposta personalizada para o seu Google Meu Negócio no Rio de Janeiro.
-                </p>
-                <a
-                  href={whatsappLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-accent text-primary font-bold rounded-full hover:bg-accent-light transition-all duration-200"
-                >
-                  Solicitar orçamento
-                </a>
-              </div>
-
-              <!-- Posts relacionados -->
-              {otherPosts.length > 0 && (
-                <div class="p-8 lg:p-10 bg-surface rounded-2xl border border-gold">
-                  <h3 class="font-display text-xl font-bold text-primary mb-6">
-                    Outras dicas
-                  </h3>
-                  <ul class="space-y-6">
-                    {otherPosts.map((related) => (
-                      <li>
-                        <a
-                          href={`/blog/${related.id}/`}
-                          class="group block"
-                        >
-                          <p class="text-xs text-muted uppercase tracking-wider mb-2">
-                            {formatDate(related.data.pubDate)}
-                          </p>
-                          <h4 class="font-semibold text-primary group-hover:text-accent transition-colors leading-snug">
-                            {related.data.title}
-                          </h4>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </aside>
           </div>
         </div>
       </div>
-    </article>
-  </main>
-  <Footer />
-</Layout>
+    </div>
+  </article>
+  <Closing />
+</Base>
+<style>
+  .art-head { padding-block: var(--space-lg) var(--space-2xl); }
+  .crumbs { font-size: var(--text-sm); color: var(--color-muted); margin-bottom: var(--space-2xl); }
+  .crumbs a { color: var(--color-muted); text-decoration: none; }
+  .art-head h1 { font-size: var(--text-display-s); max-width: 22ch; text-wrap: balance; margin-bottom: var(--space-lg); }
+  .art-head .lead { margin-bottom: var(--space-lg); }
+  .by { display: flex; align-items: center; gap: var(--space-md); font-size: var(--text-sm); }
+  .by img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; object-position: 50% 15%; box-shadow: 0 0 0 1px var(--color-ink); }
+  .art-cover { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; object-position: top; border-radius: var(--radius-card); box-shadow: 0 0 0 1px var(--color-rule); }
+  .art-body { display: grid; gap: var(--space-2xl); grid-template-columns: minmax(0, 1fr); padding-block: var(--space-2xl) var(--section-gap-s); }
+  @media (min-width: 64rem) { .art-body { grid-template-columns: minmax(0, 3fr) minmax(0, 8fr); gap: var(--space-3xl); } }
+  .toc { align-self: start; border-top: var(--rule-hair) solid var(--color-ink); padding-top: var(--space-md); }
+  @media (min-width: 64rem) { .toc { position: sticky; top: var(--space-3xl); } }
+  .toc ol { list-style: none; margin: var(--space-sm) 0 0; padding: 0; display: grid; gap: var(--space-xs); font-size: var(--text-sm); }
+  .toc a { color: var(--color-ink-2); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; text-decoration-color: var(--color-accent); }
+  .article { max-width: 68ch; font-size: 1.0625rem; line-height: 1.75; color: var(--color-ink-2); }
+  .article :global(h2) { font-size: var(--text-2xl); margin: var(--space-2xl) 0 var(--space-md); max-width: 28ch; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+  .article :global(h3) { font-size: var(--text-title); margin: var(--space-xl) 0 var(--space-sm); overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+  .article :global(p) { margin-bottom: var(--space-md); max-width: none; }
+  .article :global(ul), .article :global(ol) { padding-left: var(--space-lg); margin-bottom: var(--space-md); display: grid; gap: var(--space-xs); }
+  .article :global(blockquote) { margin: var(--space-xl) 0; padding: var(--space-lg); background: var(--color-paper-2); border-left: 3px solid var(--color-ink); }
+  .article :global(blockquote p:last-child) { margin-bottom: 0; }
+  .article :global(table) { width: 100%; border-collapse: collapse; font-size: var(--text-sm); margin-block: var(--space-lg); display: block; overflow-x: auto; }
+  .article :global(th), .article :global(td) { text-align: left; padding: var(--space-sm) var(--space-md) var(--space-sm) 0; border-bottom: var(--rule-hair) solid var(--color-rule); }
+  .article :global(a) { color: var(--color-ink); text-decoration-color: var(--color-accent); overflow-wrap: anywhere; }
+  .article :global(strong) { color: var(--color-ink); }
+  .art-cta { margin-top: var(--space-2xl); }
+  .art-cta__head { padding: var(--space-sm) var(--space-lg); background: var(--color-ink); color: var(--color-on-ink); font-weight: 500; font-size: var(--text-sm); }
+  .art-cta__body { display: grid; gap: var(--space-lg); justify-items: start; padding: var(--space-lg); }
+  .art-cta__body p { margin: 0 !important; }
+</style>

@@ -1,0 +1,39 @@
+---
+import { site, wa, fullAddress } from '../data/config';
+import Icon from './Icon.astro';
+interface Props { title?: string; text?: string; topic?: string; where?: string }
+const { title = 'Vamos colocar sua empresa no mapa?', text = 'Me chama no WhatsApp. Eu olho seu perfil e digo o que está travando seus clientes.', topic = 'o Google Meu Negócio', where = 'fechamento' } = Astro.props;
+---
+<section class="closing" aria-labelledby="fechamento-t">
+  <div class="container closing__in">
+    <div class="closing__copy">
+      <h2 id="fechamento-t">{title}</h2>
+      <p class="lead">{text}</p>
+      <div class="actions">
+        <a class="btn closing__btn" href={wa(topic)} target="_blank" rel="noopener" data-wa={where}><Icon name="whatsapp" /> Chamar no WhatsApp</a>
+        <a class="btn" href={`tel:${site.contact.phoneRaw}`} data-tel={where}><Icon name="phone" /> {site.contact.phone}</a>
+      </div>
+    </div>
+    <dl class="closing__facts ruled">
+      <div><dt>Endereço</dt><dd>{fullAddress}</dd></div>
+      <div><dt>E-mail</dt><dd><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></dd></div>
+      <div><dt>Atendimento</dt><dd>100% remoto, pelo WhatsApp.</dd></div>
+      <div><dt>No Google</dt><dd><a href={site.gmnUrl} target="_blank" rel="noopener">Ver meu perfil no Google</a></dd></div>
+    </dl>
+  </div>
+</section>
+<style>
+  .closing { background: var(--color-accent); color: var(--color-accent-ink); padding-block: var(--section-gap-s); }
+  .closing__in { display: grid; gap: var(--space-2xl); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 60rem) { .closing__in { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; gap: var(--space-3xl); } }
+  .closing__copy { display: grid; gap: var(--space-lg); justify-items: start; }
+  .closing h2 { font-size: var(--text-display-s); max-width: 14ch; color: var(--color-accent-ink); text-wrap: balance; }
+  .closing .lead { color: var(--color-accent-ink); max-width: 44ch; }
+  .closing__btn { background: var(--color-ink); color: var(--color-on-ink); border-color: var(--color-ink); box-shadow: var(--lift-primary); }
+  .closing__btn:hover { background: var(--color-ink-2); border-color: var(--color-ink-2); }
+  .closing__facts { margin: 0; border-top-color: var(--color-accent-ink); }
+  .closing__facts > div { padding-block: var(--space-md); border-bottom-color: color-mix(in oklab, var(--color-accent-ink) 25%, transparent); }
+  .closing__facts dt { font-size: var(--text-sm); font-weight: 500; }
+  .closing__facts dd { margin: var(--space-2xs) 0 0; }
+  .closing__facts a { color: var(--color-accent-ink); }
+</style>

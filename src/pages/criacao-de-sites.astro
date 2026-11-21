@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import SiteCard from '../components/SiteCard.astro';
+import Faq from '../components/Faq.astro';
+import Closing from '../components/Closing.astro';
+import Icon from '../components/Icon.astro';
+import { wa } from '../data/config';
+import { sites } from '../data/portfolio';
+import { breadcrumb, faqNode, serviceNode } from '../data/schema';
+import { faqsSites } from '../data/faqs';
+
+const itens = [
+  { t: 'Domínio e hospedagem', d: 'Configuro tudo. O domínio você paga direto ao provedor, no seu nome.' },
+  { t: 'Textos prontos', d: 'Escrevo os textos das páginas com a linguagem do seu cliente.' },
+  { t: 'SEO local', d: 'Páginas preparadas para aparecer no Google quando alguém busca o seu serviço.' },
+  { t: 'WhatsApp e mapa', d: 'Botão de WhatsApp em todas as páginas e o mapa da empresa.' },
+];
+const caracteristicas = [
+  { t: 'Feito para o celular', d: 'A maior parte de quem busca negócio local está no celular.' },
+  { t: 'Carrega rápido', d: 'Código leve e imagens otimizadas, sem construtor pesado.' },
+  { t: 'Páginas estruturadas', d: 'Uma página por serviço, com títulos e perguntas que o Google entende.' },
+  { t: 'Seguro', d: 'Certificado SSL e cabeçalhos de segurança configurados.' },
+  { t: 'Ligado ao Google Meu Negócio', d: 'Mesmos dados do perfil e dados estruturados para o Google.' },
+  { t: 'Pronto para buscas com IA', d: 'Mapa do site, robots e llms.txt para buscadores e assistentes lerem o conteúdo.' },
+];
+const passos = [
+  { t: 'Conversa', d: 'Você me conta o que a empresa faz e para quem.' },
+  { t: 'Plano de páginas', d: 'Defino as páginas a partir do que o seu cliente busca.' },
+  { t: 'Construção', d: 'Textos, design e configuração técnica.' },
+  { t: 'No ar', d: 'Domínio ligado, site publicado e enviado ao Google.' },
+];
+const schema = [
+  breadcrumb([{ name: 'Serviços', path: '/servicos/' }, { name: 'Criação de sites', path: '/criacao-de-sites/' }]),
+  serviceNode('Criação de sites profissionais', '/criacao-de-sites/', 'Criação de site institucional profissional com domínio e hospedagem configurados, textos prontos, SEO local, WhatsApp e mapa.'),
+  faqNode(faqsSites),
+];
+---
+<Base
+  title="Criação de sites profissionais para empresas | TMJL"
+  description="Criação de sites profissionais: domínio e hospedagem configurados, textos prontos, SEO local, botão de WhatsApp e mapa. Feito para o celular. Veja sites no ar."
+  schema={schema}
+  waTopic="a criação de um site para a minha empresa"
+>
+  <PageHead crumbs={[{ name: 'Serviços', path: '/servicos/' }, { name: 'Criação de sites', path: '/criacao-de-sites/' }]} title="Criação de sites profissionais" lead="O site institucional da sua empresa: rápido no celular, com textos prontos e preparado para aparecer no Google.">
+    <div class="actions">
+      <a class="btn btn--primary" href={wa('a criação de um site para a minha empresa')} target="_blank" rel="noopener" data-wa="sites_topo"><Icon name="whatsapp" /> Pedir orçamento</a>
+      <a class="btn" href="#trabalhos">Ver sites no ar</a>
+    </div>
+  </PageHead>
+
+  <section class="section" aria-labelledby="inc-t">
+    <div class="container">
+      <div class="head">
+        <h2 id="inc-t">O que vem no site</h2>
+        <p>Início, serviços, sobre e contato, com tudo para a empresa ser encontrada e chamada no WhatsApp.</p>
+      </div>
+      <ul class="figs4" role="list">
+        {itens.map((it, i) => <li><span class="num">{String(i + 1).padStart(2, '0')}</span><h3>{it.t}</h3><p>{it.d}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section band" aria-labelledby="car-t">
+    <div class="container">
+      <div class="head">
+        <h2 id="car-t">O que faz um site ser profissional</h2>
+        <p>Não é só ficar bonito: é carregar rápido, ser encontrado e levar o cliente até você.</p>
+      </div>
+      <ul class="grid3" role="list">{caracteristicas.map((c) => <li class="card"><h3>{c.t}</h3><p>{c.d}</p></li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="passos-t">
+    <div class="container">
+      <div class="head"><h2 id="passos-t">Como funciona</h2></div>
+      <ol class="steps">{passos.map((p) => <li><h3>{p.t}</h3><p>{p.d}</p></li>)}</ol>
+      <p class="caption" style="margin-top: var(--space-xl)">Quer entender o que pesa no preço? Leia <a href="/blog/quanto-custa-um-site-profissional/">quanto custa um site profissional</a>.</p>
+    </div>
+  </section>
+
+  <section class="section band" id="trabalhos" aria-labelledby="trab-t">
+    <div class="container">
+      <div class="head">
+        <h2 id="trab-t">Sites no ar</h2>
+        <p>Clique no print para abrir o site.</p>
+      </div>
+      <div class="works">{sites.map((s, i) => <SiteCard s={s} i={i % 3} />)}</div>
+    </div>
+  </section>
+
+  <Faq faqs={faqsSites} />
+  <Closing title="Vamos tirar seu site do papel?" text="Me conta o que sua empresa faz e onde atende. Eu monto o plano de páginas e mando a proposta." topic="a criação de um site para a minha empresa" />
+</Base>
+<style>
+  .figs4 { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); border-top: var(--rule-hair) solid var(--color-ink); }
+  @media (min-width: 48rem) { .figs4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .figs4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } .figs4 li + li { border-left: var(--rule-hair) solid var(--color-rule); padding-left: var(--space-lg); } }
+  .figs4 li { display: grid; gap: var(--space-sm); align-content: start; padding: var(--space-xl) var(--space-lg) var(--space-lg) 0; border-bottom: var(--rule-hair) solid var(--color-rule); }
+  .figs4 .num { color: var(--color-muted); font-size: var(--text-sm); }
+  .figs4 p { color: var(--color-muted); }
+  .grid3 { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--gap-columns); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 40rem) { .grid3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 60rem) { .grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .grid3 li { display: grid; gap: var(--space-sm); align-content: start; padding: var(--space-xl); }
+  .grid3 p { color: var(--color-muted); }
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; grid-template-columns: minmax(0, 1fr); border-top: var(--rule-hair) solid var(--color-ink); }
+  @media (min-width: 48rem) { .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } .steps li + li { padding-left: var(--space-lg); border-left: var(--rule-hair) solid var(--color-rule); } }
+  .steps li { counter-increment: s; display: grid; gap: var(--space-sm); align-content: start; padding: var(--space-xl) var(--space-lg) var(--space-lg) 0; }
+  .steps li::before { content: counter(s); font: 600 var(--text-display-s)/1 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-ink); }
+  .steps p { color: var(--color-muted); }
+  .works { display: grid; gap: var(--space-2xl) var(--gap-columns); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 40rem) { .works { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .works { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>

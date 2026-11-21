@@ -1,0 +1,27 @@
+---
+import type { SiteWork } from '../data/portfolio';
+import Icon from './Icon.astro';
+interface Props { s: SiteWork; i?: number }
+const { s, i = 0 } = Astro.props;
+const host = s.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+---
+<article class="work reveal" style={`--i:${i}`}>
+  <a class="work__shot" href={s.url} target="_blank" rel="noopener" aria-label={`Abrir o site ${s.name} em nova aba`}>
+    <img src={`/img/sites/${s.slug}-d.webp`} width="1200" height="750" alt={`Página inicial do site ${s.name}`} loading="lazy" decoding="async" />
+  </a>
+  <div class="work__meta">
+    <h3>{s.name}</h3>
+    <p class="caption">{s.segment}, {s.place}</p>
+    <a class="work__url" href={s.url} target="_blank" rel="noopener">{host} <Icon name="external" /></a>
+  </div>
+</article>
+<style>
+  .work { display: grid; gap: var(--space-md); align-content: start; min-width: 0; }
+  .work__shot { display: block; overflow: hidden; border-radius: var(--radius-card); box-shadow: 0 0 0 1px var(--color-rule); background: var(--color-paper-3); transition: box-shadow var(--dur-short) var(--ease-out); }
+  .work__shot:hover { box-shadow: 0 0 0 1px var(--color-ink), var(--shadow-card); }
+  .work__shot img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+  .work__meta { display: grid; gap: var(--space-2xs); justify-items: start; }
+  .work__meta h3 { font-size: var(--text-title); }
+  .work__url { display: inline-flex; align-items: center; gap: var(--space-2xs); margin-top: var(--space-2xs); font-size: var(--text-sm); color: var(--color-ink-2); text-decoration-color: var(--color-accent); }
+  .work__url :global(svg) { width: 14px; height: 14px; }
+</style>

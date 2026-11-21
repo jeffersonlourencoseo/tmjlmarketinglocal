@@ -1,93 +1,51 @@
 /**
- * Configuração central do site TMJL Marketing Local.
- * Atualize a URL de produção antes do deploy.
+ * Configuração central do site. Tudo que muda (domínio, contato, GA4) fica aqui.
+ * Ao ligar o domínio próprio: troque SITE_URL aqui e em astro.config.mjs.
  */
+export const SITE_URL = 'https://www.jeffersonlourenco.com.br';
 
-// URL base do site em produção. Altere aqui e em astro.config.mjs ao publicar.
-export const SITE_URL = "https://tmjlmarketinglocal.vercel.app";
-
-export const siteConfig = {
-  name: "TMJL Marketing Local",
-  tagline: "Google Meu Negócio no Rio de Janeiro",
+export const site = {
+  name: 'TMJL Marketing Local',
+  shortName: 'TMJL',
+  person: 'Jefferson Lourenço',
   url: SITE_URL,
-  locale: "pt_BR",
-  language: "pt-BR",
-  defaultTitle: "TMJL Marketing Local — Google Meu Negócio no Rio de Janeiro",
-  defaultDescription:
-    "Criação e otimização de perfis no Google Meu Negócio para ranqueamento orgânico, reputação e geração real de clientes no Rio de Janeiro.",
-  keywords: [
-    "Google Meu Negócio",
-    "SEO local",
-    "marketing local",
-    "Rio de Janeiro",
-    "otimização de perfil",
-    "fotos 360°",
-    "tour virtual",
-    "Google Maps",
-    "reputação online",
-    "avaliações Google"
-  ],
+  locale: 'pt_BR',
+  lang: 'pt-BR',
+  description:
+    'Jefferson Lourenço e a TMJL Marketing Local: Google Meu Negócio, criação de sites e fotos 360°, com atendimento 100% remoto.',
+  gmnUrl: 'https://maps.app.goo.gl/mrM76t3LSsV8MiGF8', // Perfil da TMJL no Google
+  ga4Id: '', // preencher com G-XXXXXXX quando a propriedade GA4 for criada
   contact: {
-    phone: "(21) 96548-3234",
-    phoneRaw: "+5521965483234",
-    whatsapp: "5521965483234",
-    whatsappLink: "https://wa.me/5521965483234",
-    email: "jeffersonlourencoseo@gmail.com",
-    address:
-      "Av. Vicente de Carvalho, 909 - sala 2105 - Vila da Penha, Rio de Janeiro - RJ, 21210-000",
-    streetAddress: "Av. Vicente de Carvalho, 909 - sala 2105",
-    locality: "Rio de Janeiro",
-    region: "RJ",
-    postalCode: "21210-000",
-    country: "BR"
+    phone: '(21) 99775-1577',
+    phoneRaw: '+5521997751577',
+    whatsapp: '5521997751577',
+    email: 'jeffersonlourencoseo@gmail.com',
+    street: 'Av. Vicente de Carvalho, 909, sala 2105',
+    district: 'Vila da Penha',
+    city: 'Rio de Janeiro',
+    region: 'RJ',
+    postalCode: '21210-000',
+    country: 'BR',
+    mapsUrl:
+      'https://www.google.com/maps/search/?api=1&query=Av.+Vicente+de+Carvalho,+909,+Vila+da+Penha,+Rio+de+Janeiro',
   },
-  social: {
-    whatsapp: "https://wa.me/5521965483234",
-    email: "mailto:jeffersonlourencoseo@gmail.com"
-  },
-  og: {
-    image: "/og-image.jpg",
-    type: "website" as const
-  },
-  brand: {
-    logo: "/logo-transparent.png",
-    favicon: "/favicon.svg"
-  }
+  sameAs: ['https://maps.app.goo.gl/mrM76t3LSsV8MiGF8'] as string[], // links do Perfil da Empresa no Google, Instagram etc.
 };
 
-/** Schema.org LocalBusiness JSON-LD. */
-export const localBusinessSchema = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": `${siteConfig.url}/#business`,
-  name: siteConfig.name,
-  description: siteConfig.defaultDescription,
-  url: siteConfig.url,
-  telephone: siteConfig.contact.phoneRaw,
-  email: siteConfig.contact.email,
-  image: `${siteConfig.url}${siteConfig.brand.logo}`,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: siteConfig.contact.streetAddress,
-    addressLocality: siteConfig.contact.locality,
-    addressRegion: siteConfig.contact.region,
-    postalCode: siteConfig.contact.postalCode,
-    addressCountry: siteConfig.contact.country
-  },
-  sameAs: [siteConfig.social.whatsapp],
-  priceRange: "$$",
-  areaServed: {
-    "@type": "City",
-    name: "Rio de Janeiro",
-    containedInPlace: {
-      "@type": "State",
-      name: "Rio de Janeiro",
-      containedInPlace: {
-        "@type": "Country",
-        name: "Brasil"
-      }
-    }
-  }
-};
+export const fullAddress = `${site.contact.street}, ${site.contact.district}, ${site.contact.city} - ${site.contact.region}, ${site.contact.postalCode}`;
 
-export default siteConfig;
+/** Monta o link do WhatsApp com a mensagem do contexto do botão. */
+export function wa(assunto = 'os serviços da TMJL') {
+  const msg = `Olá, Jefferson! Vim pelo site e quero saber mais sobre ${assunto}.`;
+  return `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(msg)}`;
+}
+
+export const nav = [
+  { href: '/google-meu-negocio/', label: 'Google Meu Negócio' },
+  { href: '/criacao-de-sites/', label: 'Sites' },
+  { href: '/fotos-360/', label: 'Fotos 360°' },
+  { href: '/portfolio/', label: 'Portfólio' },
+  { href: '/blog/', label: 'Blog' },
+  { href: '/quem-somos/', label: 'Quem somos' },
+  { href: '/contato/', label: 'Contato' },
+];

@@ -1,14 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-
-import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
-// https://astro.build/config
+// Trocar pelo domínio próprio quando estiver ligado (e em src/data/config.ts)
 export default defineConfig({
-  site: 'https://tmjlmarketinglocal.vercel.app',
-  integrations: [sitemap()],
-  vite: {
-    plugins: [tailwindcss()]
-  }
+  site: 'https://www.jeffersonlourenco.com.br',
+  trailingSlash: 'always',
+  integrations: [sitemap({ filter: (p) => !p.includes('/404') })],
+  server: { port: 4321, host: true },
 });

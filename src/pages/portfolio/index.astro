@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import SiteCard from '../../components/SiteCard.astro';
+import Closing from '../../components/Closing.astro';
+import { sites, panos, perfis } from '../../data/portfolio';
+import { breadcrumb } from '../../data/schema';
+
+const schema = [breadcrumb([{ name: 'Portfólio', path: '/portfolio/' }])];
+---
+<Base
+  title="Portfólio: Google Meu Negócio, sites e fotos 360° | TMJL"
+  description="Portfólio da TMJL Marketing Local: perfis no Google Meu Negócio que eu gerencio, sites institucionais no ar e empresas fotografadas em 360° no Rio."
+  schema={schema}
+>
+  <PageHead crumbs={[{ name: 'Portfólio', path: '/portfolio/' }]} title="Trabalho que está no ar" lead="Perfis no Google, sites e fotos 360° de negócios reais.">
+    <nav class="jump" aria-label="Seções do portfólio">
+      <a href="#perfis">Google Meu Negócio</a>
+      <a href="#sites">Sites</a>
+      <a href="#fotos360">Fotos 360°</a>
+    </nav>
+  </PageHead>
+
+  <section class="section" id="perfis" aria-labelledby="perfis-t">
+    <div class="container">
+      <div class="head">
+        <h2 id="perfis-t">Perfis no Google que eu cuido</h2>
+        <p>Do Rio de Janeiro a São Paulo, Joinville e Fortaleza.</p>
+      </div>
+      <table class="table index">
+        <thead><tr><th scope="col">Empresa</th><th scope="col">Segmento</th><th scope="col">Onde</th></tr></thead>
+        <tbody>
+          {perfis.map((p) => <tr><td>{p.name}</td><td>{p.segment}</td><td>{p.place}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section band" id="sites" aria-labelledby="sites-t">
+    <div class="container">
+      <div class="head">
+        <h2 id="sites-t">Sites no ar</h2>
+        <p>Clique no print para abrir o site.</p>
+      </div>
+      <div class="works">{sites.map((s, i) => <SiteCard s={s} i={i % 3} />)}</div>
+    </div>
+  </section>
+
+  <section class="section" id="fotos360" aria-labelledby="f360-t">
+    <div class="container">
+      <div class="head">
+        <h2 id="f360-t">Fotos 360°</h2>
+        <p>Empresas no Rio de Janeiro. Toque para girar as fotos.</p>
+      </div>
+      <ul class="gallery" role="list">
+        {panos.map((p) => (
+          <li>
+            <a href={`/portfolio/360/${p.id}/`}>
+              <img src={`/panoramas/${p.id}/cards/01.webp`} width="1000" height="500" alt="" loading="lazy" decoding="async" />
+              <span class="gallery__name">{p.name}</span>
+              <span class="caption">{p.category}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <Closing />
+</Base>
+<style>
+  .jump { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  .jump a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 var(--space-md); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-pill); background: var(--color-paper-2); box-shadow: var(--lift-top); text-decoration: none; font-weight: 500; color: var(--color-ink); }
+  .jump a:hover { border-color: var(--color-muted); }
+  .jump a:active { transform: translateY(1px); }
+  .index { border-top: var(--rule-hair) solid var(--color-ink); }
+  .index td { padding-block: var(--space-md); color: var(--color-ink-2); }
+  .index td:first-child { color: var(--color-ink); font-weight: 500; }
+  @media (max-width: 40rem) { .index thead { display: none; } .index tr { display: grid; padding-block: var(--space-sm); border-bottom: var(--rule-hair) solid var(--color-rule); } .index td { border: 0; padding: 0; } .index td:not(:first-child) { font-size: var(--text-sm); color: var(--color-muted); } }
+  .works { display: grid; gap: var(--space-2xl) var(--gap-columns); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 40rem) { .works { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .works { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .gallery { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2xl) var(--gap-columns); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 40rem) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .gallery a { display: grid; gap: var(--space-2xs); text-decoration: none; }
+  .gallery img { width: 100%; aspect-ratio: 2 / 1; object-fit: cover; border-radius: var(--radius-card); box-shadow: 0 0 0 1px var(--color-rule); margin-bottom: var(--space-sm); transition: box-shadow var(--dur-short) var(--ease-out); }
+  .gallery a:hover img { box-shadow: 0 0 0 1px var(--color-ink), var(--shadow-card); }
+  .gallery__name { font: 600 var(--text-title)/1.2 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-ink); }
+</style>

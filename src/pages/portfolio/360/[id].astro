@@ -1,0 +1,62 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHead from '../../../components/PageHead.astro';
+import Pano from '../../../components/Pano.astro';
+import Closing from '../../../components/Closing.astro';
+import Icon from '../../../components/Icon.astro';
+import { panos, type Pano as P } from '../../../data/portfolio';
+import { breadcrumb } from '../../../data/schema';
+import { site } from '../../../data/config';
+
+export function getStaticPaths() {
+  return panos.map((p) => ({ params: { id: p.id }, props: { pano: p } }));
+}
+const { pano } = Astro.props as { pano: P };
+const outros = panos.filter((p) => p.id !== pano.id).slice(0, 3);
+const n = pano.scenes.length;
+const ambientes = `${n} ${n > 1 ? 'ambientes' : 'ambiente'}`;
+const path = `/portfolio/360/${pano.id}/`;
+const schema = [
+  breadcrumb([{ name: 'Portfólio', path: '/portfolio/' }, { name: pano.name, path }]),
+  {
+    '@type': 'ImageGallery',
+    name: `${pano.name} em fotos 360°`,
+    url: `${site.url}${path}`,
+    creator: { '@id': `${site.url}/#jefferson` },
+    image: pano.scenes.map((s, i) => ({ '@type': 'ImageObject', contentUrl: `${site.url}/panoramas/${pano.id}/${s}.jpg`, name: `${pano.name}: ${pano.sceneNames?.[i] ?? 'ambiente'}`, width: 4096, height: 2048 })),
+  },
+];
+---
+<Base
+  title={`${pano.name} em fotos 360° | Portfólio TMJL`}
+  description={`Gire as fotos 360° da ${pano.name} (${pano.category.toLowerCase()}): ${ambientes} fotografados e publicados no Google Maps pela TMJL Marketing Local.`}
+  image={`/panoramas/${pano.id}/cards/01-poster.webp`}
+  schema={schema}
+  waTopic="fotos 360° para a minha empresa"
+>
+  <PageHead crumbs={[{ name: 'Portfólio', path: '/portfolio/' }, { name: pano.name, path }]} title={pano.name} lead={`${pano.category}. ${ambientes} em 360°, fotografados e publicados no Google por Jefferson Lourenço.`}>
+    {pano.tourUrl && <a class="more" href={pano.tourUrl} target="_blank" rel="noopener">Abrir o tour virtual completo <Icon name="external" /></a>}
+  </PageHead>
+  <section class="container" aria-label="Fotos 360°">
+    <Pano pano={pano} eager priority class="pano--tall" caption="Arraste a imagem para olhar em volta. No celular, toque em “Girar em 360°”." />
+  </section>
+  <section class="section" aria-labelledby="mais-t">
+    <div class="container">
+      <h2 id="mais-t" style="margin-bottom: var(--space-xl)">Outras empresas em 360°</h2>
+      <ul class="more3" role="list">
+        {outros.map((p) => (
+          <li><a href={`/portfolio/360/${p.id}/`}><img src={`/panoramas/${p.id}/cards/01.webp`} width="1000" height="500" alt="" loading="lazy" /><span>{p.name}</span></a></li>
+        ))}
+      </ul>
+      <a class="more" href="/fotos-360/" style="margin-top: var(--space-xl)">Ver todas e como funciona <Icon name="arrow" /></a>
+    </div>
+  </section>
+  <Closing title="Quer seu espaço assim no Google?" text="Me chama no WhatsApp com o nome da empresa e o bairro. Eu vejo os ambientes e marco a sessão de fotos." topic="fotos 360° para a minha empresa" />
+</Base>
+<style>
+  .more3 { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2xl) var(--gap-columns); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 48rem) { .more3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .more3 a { display: grid; gap: var(--space-sm); text-decoration: none; font: 600 var(--text-title)/1.2 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-ink); }
+  .more3 img { width: 100%; aspect-ratio: 2 / 1; object-fit: cover; border-radius: var(--radius-card); box-shadow: 0 0 0 1px var(--color-rule); transition: box-shadow var(--dur-short) var(--ease-out); }
+  .more3 a:hover img { box-shadow: 0 0 0 1px var(--color-ink), var(--shadow-card); }
+</style>

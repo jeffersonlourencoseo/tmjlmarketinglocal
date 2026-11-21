@@ -1,61 +1,117 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import ContactForm from "../components/ContactForm.astro";
-import { siteConfig } from "../data/config";
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Icon from '../components/Icon.astro';
+import { site, fullAddress, wa } from '../data/config';
+import { breadcrumb } from '../data/schema';
+const schema = [breadcrumb([{ name: 'Contato', path: '/contato/' }]), { '@type': 'ContactPage', about: { '@id': `${site.url}/#empresa` } }];
 ---
+<Base
+  title="Contato | TMJL Marketing Local, Google Meu Negócio"
+  description="Fale com Jefferson Lourenço pelo WhatsApp (21) 99775-1577. Google Meu Negócio, sites e fotos 360° com atendimento 100% remoto pela TMJL Marketing Local."
+  schema={schema}
+>
+  <PageHead crumbs={[{ name: 'Contato', path: '/contato/' }]} title="Fale comigo" lead="O caminho mais rápido é o WhatsApp. Se preferir, preencha ao lado que a mensagem já vai pronta." />
 
-<Layout
-  title="Contato | TMJL Marketing Local — Rio de Janeiro"
-  description="Entre em contato com a TMJL Marketing Local. Atendimento no Rio de Janeiro para criação e otimização de Google Meu Negócio.">
-  <Header />
-  <main class="pt-24 bg-secondary">
-    <section id="contato" class="py-28 lg:py-36">
-      <div class="container mx-auto px-6 lg:px-12">
-        <div class="max-w-3xl mb-16 lg:mb-20">
-          <p class="text-accent font-semibold tracking-widest uppercase text-sm mb-4">
-            Contato
-          </p>
-          <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary leading-tight mb-6">
-            Vamos colocar sua empresa no mapa
-          </h1>
-          <p class="text-lg text-muted">
-            Preencha o formulário ou fale direto pelo WhatsApp. Respondemos em até 24 horas úteis.
-          </p>
-        </div>
+  <section class="container contact" aria-label="Formas de contato">
+    <div class="channels">
+      <a class="channel" href={wa()} target="_blank" rel="noopener" data-wa="contato_canal">
+        <Icon name="whatsapp" /><span><strong>WhatsApp</strong><br />{site.contact.phone}</span>
+      </a>
+      <a class="channel" href={`tel:${site.contact.phoneRaw}`} data-tel="contato_canal">
+        <Icon name="phone" /><span><strong>Telefone</strong><br />{site.contact.phone}</span>
+      </a>
+      <a class="channel" href={`mailto:${site.contact.email}`}>
+        <Icon name="mail" /><span><strong>E-mail</strong><br />{site.contact.email}</span>
+      </a>
+      <a class="channel" href={site.gmnUrl} target="_blank" rel="noopener">
+        <Icon name="pin" /><span><strong>Perfil no Google</strong><br />Veja a TMJL no Google Maps</span>
+      </a>
+      <a class="channel" href={site.contact.mapsUrl} target="_blank" rel="noopener">
+        <Icon name="pin" /><span><strong>Endereço</strong><br />{fullAddress}</span>
+      </a>
+    </div>
 
-        <div class="grid lg:grid-cols-5 gap-12 lg:gap-16">
-          <div class="lg:col-span-2 space-y-8">
-            <div class="p-8 lg:p-10 bg-primary rounded-2xl text-white">
-              <h2 class="font-display text-2xl font-bold mb-6 text-accent">Informações de contato</h2>
-              <ul class="space-y-5">
-                <li>
-                  <p class="text-sm text-white/50 uppercase tracking-wider mb-1">WhatsApp</p>
-                  <a href={`https://wa.me/${siteConfig.contact.whatsapp}`} target="_blank" rel="noopener noreferrer" class="text-lg font-medium hover:text-accent transition-colors">
-                    {siteConfig.contact.phone}
-                  </a>
-                </li>
-                <li>
-                  <p class="text-sm text-white/50 uppercase tracking-wider mb-1">E-mail</p>
-                  <a href={`mailto:${siteConfig.contact.email}`} class="text-lg font-medium hover:text-accent transition-colors">
-                    {siteConfig.contact.email}
-                  </a>
-                </li>
-                <li>
-                  <p class="text-sm text-white/50 uppercase tracking-wider mb-1">Endereço</p>
-                  <p class="text-lg font-medium leading-relaxed">{siteConfig.contact.address}</p>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="lg:col-span-3 p-8 lg:p-10 bg-surface rounded-2xl border border-gold shadow-sm">
-            <ContactForm />
-          </div>
-        </div>
+    <form class="form card" data-waform novalidate>
+      <h2 class="form__t">Monte sua mensagem</h2>
+      <div class="field">
+        <label for="nome">Seu nome</label>
+        <input id="nome" name="nome" type="text" autocomplete="name" required />
+        <p class="field__err" data-err="nome"></p>
       </div>
-    </section>
-  </main>
-  <Footer />
-</Layout>
+      <div class="field">
+        <label for="empresa">Empresa e bairro</label>
+        <input id="empresa" name="empresa" type="text" autocomplete="organization" placeholder="Ex.: Barbearia do Zé, Penha" required />
+        <p class="field__err" data-err="empresa"></p>
+      </div>
+      <fieldset class="field">
+        <legend>Tenho interesse em</legend>
+        <div class="checks">
+          <label><input type="checkbox" name="servico" value="Google Meu Negócio" checked /> Google Meu Negócio</label>
+          <label><input type="checkbox" name="servico" value="fotos 360°" /> Fotos 360°</label>
+          <label><input type="checkbox" name="servico" value="site" /> Site</label>
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="msg">Mensagem <span class="muted">(opcional)</span></label>
+        <textarea id="msg" name="msg" rows="4"></textarea>
+      </div>
+      <button class="btn btn--gold" type="submit"><Icon name="whatsapp" /> Enviar pelo WhatsApp</button>
+      <p class="caption">Abre o seu WhatsApp com a mensagem pronta. Nada fica salvo neste site.</p>
+    </form>
+  </section>
+
+  <section class="section" aria-label="Mapa">
+    <div class="container">
+      <iframe class="map" title="Mapa: TMJL Marketing Local" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Av.+Vicente+de+Carvalho,+909,+Vila+da+Penha,+Rio+de+Janeiro&output=embed"></iframe>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { site } from '../data/config';
+  const f = document.querySelector<HTMLFormElement>('[data-waform]');
+  f?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = new FormData(f);
+    const nome = String(d.get('nome') || '').trim();
+    const empresa = String(d.get('empresa') || '').trim();
+    const errs: Record<string, string> = {};
+    if (!nome) errs.nome = 'Escreva seu nome.';
+    if (!empresa) errs.empresa = 'Escreva o nome da empresa e o bairro.';
+    f.querySelectorAll<HTMLElement>('[data-err]').forEach((el) => { el.textContent = errs[el.dataset.err!] || ''; });
+    f.querySelectorAll('input[required]').forEach((i) => i.setAttribute('aria-invalid', String(!!errs[(i as HTMLInputElement).name])));
+    const first = Object.keys(errs)[0];
+    if (first) { f.querySelector<HTMLInputElement>(`[name="${first}"]`)?.focus(); return; }
+    const serv = d.getAll('servico').map(String);
+    const msg = String(d.get('msg') || '').trim();
+    const texto = `Olá, Jefferson! Sou ${nome}, da ${empresa}. Vim pelo site e tenho interesse em: ${serv.length ? serv.join(', ') : 'conversar sobre os serviços'}.${msg ? `\n\n${msg}` : ''}`;
+    const g = (window as any).gtag; if (typeof g === 'function') g('event', 'envio_formulario', { local_botao: 'contato' });
+    window.open(`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
+  });
+</script>
+
+<style>
+  .contact { display: grid; gap: var(--space-2xl); grid-template-columns: minmax(0, 1fr); align-items: start; padding-top: var(--space-3xl); }
+  @media (min-width: 60rem) { .contact { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-3xl); } }
+  .channels { display: grid; border-top: var(--rule-hair) solid var(--color-ink); }
+  .channel { display: flex; gap: var(--space-md); align-items: flex-start; padding-block: var(--space-lg); border-bottom: var(--rule-hair) solid var(--color-rule); text-decoration: none; color: var(--color-ink-2); }
+  .channel strong { font: 600 var(--text-title)/1.2 var(--font-display); letter-spacing: var(--tracking-display); }
+  .channel :global(svg) { width: 22px; height: 22px; color: var(--color-ink); flex-shrink: 0; margin-top: var(--space-2xs); }
+  .channel:hover strong { text-decoration: underline; text-decoration-color: var(--color-accent); }
+  .form { display: grid; gap: var(--space-lg); padding: var(--space-xl); }
+  .form__t { font-size: var(--text-title); }
+  .field { position: relative; display: grid; gap: var(--space-2xs); border: 0; margin: 0; padding: 0; min-width: 0; }
+  .field label, .field legend { font-size: var(--text-sm); font-weight: 500; color: var(--color-muted); padding: 0; }
+  .field input[type='text'], .field textarea { width: 100%; min-height: 52px; padding: var(--space-sm) var(--space-md); border: var(--rule-hair) solid var(--color-muted); border-radius: var(--radius-pill); background: var(--color-paper-2); color: var(--color-ink); font: 400 var(--text-md)/1.5 var(--font-body); }
+  .field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--color-focus); outline-offset: -1px; }
+  .field input[aria-invalid='true'] { border-color: var(--color-error); }
+  .field__err { min-height: 1lh; font-size: var(--text-sm); color: var(--color-error); margin: 0; }
+  .field__err:empty { min-height: 0; }
+  .checks { display: flex; flex-wrap: wrap; gap: var(--space-sm) var(--space-lg); }
+  .checks label { display: inline-flex; gap: var(--space-xs); align-items: center; color: var(--color-ink-2); min-height: 44px; cursor: pointer; }
+  .checks input { width: 20px; height: 20px; accent-color: var(--color-accent); }
+  .form .btn { justify-self: start; }
+  .map { width: 100%; height: 420px; border: 0; border-radius: var(--radius-card); box-shadow: 0 0 0 1px var(--color-rule); }
+</style>

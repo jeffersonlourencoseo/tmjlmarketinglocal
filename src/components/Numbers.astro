@@ -1,0 +1,21 @@
+---
+/** Números gerais dos perfis que o Jefferson gerencia (painel do Google, levantados em 20 nov. 2026). */
+---
+<section class="nb ink" aria-labelledby="nb-t">
+  <div class="container">
+    <h2 id="nb-t" class="visually-hidden">Resultados nos perfis que eu gerencio</h2>
+    <ul class="nb__row" role="list">
+      <li><span class="nb__n tnum" data-count="70605">70.605</span><span class="nb__l">pessoas viram os perfis que eu gerencio, de junho a novembro de 2026</span></li>
+      <li><span class="nb__n tnum"><span data-count="660">660</span> mil+</span><span class="nb__l">visualizações das fotos e vídeos publicados nesses perfis</span></li>
+      <li><span class="nb__n tnum">4,9</span><span class="nb__l">nota média nas avaliações de clientes reais</span></li>
+    </ul>
+  </div>
+</section>
+<style>
+  .nb { padding-block: var(--space-3xl); }
+  .nb__row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
+  .nb__row li { display: grid; gap: var(--space-sm); align-content: start; padding-block: var(--space-lg); border-top: var(--rule-hair) solid var(--color-ink-line); }
+  @media (min-width: 56rem) { .nb__row { grid-template-columns: repeat(3, minmax(0, 1fr)); } .nb__row li { padding: 0 var(--space-xl); border-top: 0; border-left: var(--rule-hair) solid var(--color-ink-line); } .nb__row li:first-child { padding-left: 0; border-left: 0; } }
+  .nb__n { font: 600 var(--text-display-s)/1 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-on-ink); white-space: nowrap; }
+  .nb__l { color: var(--color-on-ink-muted); max-width: 30ch; }
+</style>

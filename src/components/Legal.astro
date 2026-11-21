@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from './PageHead.astro';
+interface Props { title: string; path: string; description: string }
+const { title, path, description } = Astro.props;
+---
+<Base title={`${title} | TMJL Marketing Local`} description={description}>
+  <PageHead crumbs={[{ name: title, path }]} title={title} />
+  <section class="container legal">
+    <slot />
+  </section>
+</Base>
+<style>
+  .legal { padding-block: var(--space-2xl) var(--section-gap-s); max-width: calc(72ch + var(--gutter) * 2); }
+  .legal :global(h2) { font-size: var(--text-title); margin: var(--space-2xl) 0 var(--space-md); overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+  .legal :global(p), .legal :global(li) { margin-bottom: var(--space-sm); color: var(--color-ink-2); }
+  .legal :global(ul) { padding-left: var(--space-lg); }
+</style>

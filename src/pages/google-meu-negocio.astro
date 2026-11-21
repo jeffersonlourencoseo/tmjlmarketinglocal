@@ -1,0 +1,145 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Numbers from '../components/Numbers.astro';
+import Faq from '../components/Faq.astro';
+import Closing from '../components/Closing.astro';
+import Icon from '../components/Icon.astro';
+import { wa } from '../data/config';
+import { breadcrumb, faqNode, serviceNode } from '../data/schema';
+import { faqsGmn } from '../data/faqs';
+
+const fatores = [
+  { t: 'Relevância', d: 'O quanto o perfil combina com o que a pessoa buscou: categoria, descrição, serviços e palavras-chave.' },
+  { t: 'Distância', d: 'A proximidade entre a empresa e quem está buscando. Esse fator não muda com otimização.' },
+  { t: 'Proeminência', d: 'O quanto a empresa é conhecida: avaliações, respostas, fotos, posts e menções na internet.' },
+];
+const diagnostico = ['Categoria correta e relevante', 'Endereço e contato', 'Horário de funcionamento', 'Descrição com palavras-chave', 'Fotos atuais e de qualidade', 'Resposta às avaliações', 'Postagens regulares', 'Produtos e serviços listados', 'Textos otimizados para IA', 'Presença em diretórios de confiança'];
+const incluso = [
+  { t: 'Criação ou ajuste do perfil', d: 'Perfil novo do zero com acompanhamento da verificação, ou perfil existente revisado ponto a ponto.' },
+  { t: 'Perfil completo', d: 'Categorias, endereço, contato, horários, descrição e serviços completos e corretos.' },
+  { t: 'Palavras-chave', d: 'Os termos que seus clientes buscam, aplicados na descrição, nos serviços e nos posts.' },
+  { t: 'Fotos geotagueadas', d: 'Fotos reais da empresa recebem a localização antes de publicar.' },
+  { t: 'Posts atualizados', d: 'Publicações sobre serviços e novidades para o perfil não ficar parado.' },
+  { t: 'Avaliações respondidas', d: 'Positivas e negativas, de forma profissional, durante os 30 dias de gestão.' },
+];
+const vantagens = ['Mais ligações e pedidos de rota', 'Cliques no WhatsApp sem pagar anúncio', 'Destaque contra a concorrência do bairro', 'Reputação forte com avaliações respondidas'];
+const passos = [
+  { t: 'Diagnóstico', d: 'Perfil atual e concorrência da sua região.' },
+  { t: 'Otimização', d: 'Perfil completo e estruturado para ranquear.' },
+  { t: 'Fotos e posts', d: 'Fotos geotagueadas e conteúdo atualizado.' },
+  { t: '30 dias de gestão', d: 'Avaliações respondidas e resultado acompanhado.' },
+];
+const schema = [
+  breadcrumb([{ name: 'Serviços', path: '/servicos/' }, { name: 'Google Meu Negócio', path: '/google-meu-negocio/' }]),
+  serviceNode('Otimização e criação de Google Meu Negócio', '/google-meu-negocio/', 'Criação ou otimização do Perfil da Empresa no Google com diagnóstico de 10 pontos, palavras-chave, fotos geotagueadas, posts, avaliações respondidas e 30 dias de gestão.'),
+  faqNode(faqsGmn),
+];
+---
+<Base
+  title="Otimização de Google Meu Negócio: criação e ajuste | TMJL"
+  description="Otimização e criação de Google Meu Negócio: diagnóstico de 10 pontos, palavras-chave, fotos geotagueadas, posts e avaliações respondidas, com 30 dias de gestão."
+  schema={schema}
+  waTopic="a otimização do meu Google Meu Negócio"
+>
+  <PageHead crumbs={[{ name: 'Serviços', path: '/servicos/' }, { name: 'Google Meu Negócio', path: '/google-meu-negocio/' }]} title="Otimização de Google Meu Negócio" lead="Criação ou otimização do perfil da sua empresa no Google, para aparecer no mapa quando alguém procura perto.">
+    <a class="btn btn--primary" href={wa('a criação ou otimização do meu Google Meu Negócio')} target="_blank" rel="noopener" data-wa="gmn_topo"><Icon name="whatsapp" /> Pedir orçamento</a>
+  </PageHead>
+
+  <section class="section" aria-labelledby="oque-t">
+    <div class="container split">
+      <div class="split__copy">
+        <h2 id="oque-t">O que é a otimização do perfil</h2>
+        <p class="lead">É deixar o Perfil da Empresa no Google completo, correto e ativo, com as palavras que seus clientes digitam. Perfil incompleto perde para o completo, mesmo estando mais perto.</p>
+        <p>Se a sua empresa ainda não tem perfil, eu crio do zero e acompanho a verificação. Se já tem, reviso cada campo e corrijo o que está travando os seus clientes.</p>
+      </div>
+      <div class="split__side">
+        <h3 class="split__h">Como o Google decide quem aparece</h3>
+        <ul class="rows ruled" role="list">{fatores.map((f) => <li><strong>{f.t}</strong><span>{f.d}</span></li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band" aria-labelledby="diag-t">
+    <div class="container diag">
+      <div class="diag__copy">
+        <h2 id="diag-t">Começo pelo diagnóstico</h2>
+        <p class="lead">Antes de mexer em qualquer coisa, analiso o seu perfil e os concorrentes que aparecem na sua frente.</p>
+      </div>
+      <div class="entry">
+        <div class="diag__head"><span>Diagnóstico do perfil</span><span><span class="num">10</span> pontos</span></div>
+        <ol class="diag__list notebook">{diagnostico.map((d) => <li><span class="ok" aria-hidden="true"></span>{d}</li>)}</ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="inc-t">
+    <div class="container">
+      <div class="head">
+        <h2 id="inc-t">O que está incluso</h2>
+        <p>Pagamento único, com 30 dias de gestão a partir da liberação do perfil pelo Google.</p>
+      </div>
+      <ul class="grid3" role="list">{incluso.map((it) => <li class="card"><h3>{it.t}</h3><p>{it.d}</p></li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section sheet" aria-labelledby="van-t">
+    <div class="container van">
+      <h2 id="van-t">Vantagens de um perfil otimizado</h2>
+      <ul class="ticks van__list">{vantagens.map((v) => <li>{v}</li>)}</ul>
+    </div>
+  </section>
+
+  <Numbers />
+
+  <section class="section" aria-labelledby="passos-t">
+    <div class="container">
+      <div class="head"><h2 id="passos-t">Como funciona</h2></div>
+      <ol class="steps">{passos.map((p) => <li><h3>{p.t}</h3><p>{p.d}</p></li>)}</ol>
+      <div class="gest">
+        <h3>Depois dos 30 dias: gestão mensal</h3>
+        <p>Continuidade opcional, contratada à parte: posts toda semana, resposta a todas as avaliações e relatório com visualizações, ligações e rotas.</p>
+      </div>
+    </div>
+  </section>
+
+  <Faq faqs={faqsGmn} />
+  <Closing topic="a otimização do meu Google Meu Negócio" />
+</Base>
+<style>
+  .split { display: grid; gap: var(--space-2xl); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 60rem) { .split { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: var(--space-3xl); } }
+  .split__copy { display: grid; gap: var(--space-lg); align-content: start; }
+  .split__h { margin-bottom: var(--space-md); }
+  .rows { list-style: none; margin: 0; padding: 0; }
+  .rows li { display: grid; gap: var(--space-2xs); padding-block: var(--space-md); }
+  .rows strong { font-size: var(--text-lg); }
+  .rows span { color: var(--color-muted); }
+
+  .diag { display: grid; gap: var(--space-2xl); grid-template-columns: minmax(0, 1fr); align-items: center; }
+  @media (min-width: 60rem) { .diag { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-3xl); } }
+  .diag__copy { display: grid; gap: var(--space-lg); }
+  .diag__head { display: flex; justify-content: space-between; padding: var(--space-sm) var(--space-lg); background: var(--color-ink); color: var(--color-on-ink); font-weight: 500; }
+  .diag__list { list-style: none; margin: 0; padding: var(--space-md) var(--space-lg); display: grid; }
+  @media (min-width: 40rem) { .diag__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-lg); } }
+  .diag__list li { display: flex; align-items: center; gap: var(--space-sm); padding-block: var(--space-sm); border-bottom: var(--rule-hair) solid var(--color-grid-strong); color: var(--color-ink); font-weight: 500; }
+  .ok { width: 18px; height: 18px; border-radius: var(--radius-pill); background: var(--color-green-soft); box-shadow: inset 0 0 0 1px var(--color-green); flex-shrink: 0; position: relative; }
+  .ok::after { content: ''; position: absolute; left: 6px; top: 3px; width: 4px; height: 8px; border: solid var(--color-green); border-width: 0 2px 2px 0; rotate: 45deg; }
+
+  .grid3 { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--gap-columns); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 40rem) { .grid3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 60rem) { .grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .grid3 li { display: grid; gap: var(--space-sm); align-content: start; padding: var(--space-xl); }
+  .grid3 p { color: var(--color-muted); }
+
+  .van { display: grid; gap: var(--space-xl); grid-template-columns: minmax(0, 1fr); align-items: start; }
+  @media (min-width: 60rem) { .van { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-3xl); } }
+  .van__list li { font-size: var(--text-lg); color: var(--color-ink); padding-block: var(--space-xs); }
+
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; grid-template-columns: minmax(0, 1fr); border-top: var(--rule-hair) solid var(--color-ink); }
+  @media (min-width: 48rem) { .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } .steps li + li { padding-left: var(--space-lg); border-left: var(--rule-hair) solid var(--color-rule); } }
+  .steps li { counter-increment: s; display: grid; gap: var(--space-sm); align-content: start; padding: var(--space-xl) var(--space-lg) var(--space-lg) 0; }
+  .steps li::before { content: counter(s); font: 600 var(--text-display-s)/1 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-ink); }
+  .steps p { color: var(--color-muted); }
+  .gest { margin-top: var(--space-2xl); display: grid; gap: var(--space-sm); padding-top: var(--space-lg); border-top: 2px solid var(--color-ink); max-width: 62ch; }
+</style>

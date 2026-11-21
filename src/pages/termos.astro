@@ -1,54 +1,20 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import Legal from '../components/Legal.astro';
+import { site } from '../data/config';
 ---
-
-<Layout
-  title="Termos de Uso | TMJL Marketing Local"
-  description="Termos de uso da TMJL Marketing Local. Leia as condições para uso do site e dos serviços.">
-  <Header />
-  <main class="pt-24 bg-secondary">
-    <section class="py-28 lg:py-36">
-      <div class="container mx-auto px-6 lg:px-12">
-        <div class="max-w-4xl mx-auto">
-          <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary leading-tight mb-16">
-            Termos de Uso
-          </h1>
-
-          <div class="space-y-6 text-lg text-muted leading-relaxed">
-            <p>
-              Ao acessar e usar este site, você concorda com os termos e condições descritos abaixo. Caso não concorde com algum item, solicitamos que não utilize nossos serviços.
-            </p>
-
-            <h2 class="font-display text-2xl font-bold text-primary mt-12 mb-4">Objetivo do site</h2>
-            <p>
-              Este site tem como objetivo apresentar os serviços de marketing digital e gestão de Google Meu Negócio oferecidos pela TMJL Marketing Local, além de possibilitar o contato entre visitantes e nossa equipe.
-            </p>
-
-            <h2 class="font-display text-2xl font-bold text-primary mt-12 mb-4">Propriedade intelectual</h2>
-            <p>
-              Todo o conteúdo publicado neste site — textos, imagens, logotipos, marcas e código — é de propriedade da TMJL Marketing Local ou de seus licenciadores. É proibida a reprodução sem autorização prévia por escrito.
-            </p>
-
-            <h2 class="font-display text-2xl font-bold text-primary mt-12 mb-4">Limitação de responsabilidade</h2>
-            <p>
-              As informações apresentadas são atualizadas regularmente, mas não garantimos resultados específicos de ranqueamento no Google. O posicionamento nos mecanismos de busca depende de diversos fatores externos.
-            </p>
-
-            <h2 class="font-display text-2xl font-bold text-primary mt-12 mb-4">Serviços contratados</h2>
-            <p>
-              Os serviços prestados estão sujeitos à assinatura de proposta comercial específica. Condições, prazos e valores são definidos individualmente conforme as necessidades de cada cliente.
-            </p>
-
-            <h2 class="font-display text-2xl font-bold text-primary mt-12 mb-4">Alterações nos termos</h2>
-            <p>
-              A TMJL Marketing Local pode alterar estes termos a qualquer momento. Recomendamos que os leia periodicamente para se manter atualizado.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <Footer />
-</Layout>
+<Legal title="Termos de uso" path="/termos/" description="Termos de uso do site da TMJL Marketing Local: uso do conteúdo, origem dos números mostrados, imagens do portfólio, marcas citadas e contato.">
+  <p>Última atualização: novembro de 2026.</p>
+  <h2>Sobre o conteúdo</h2>
+  <p>O conteúdo deste site é informativo. Valores, prazos e condições de cada serviço são definidos na proposta enviada a cada cliente.</p>
+  <h2>Resultados</h2>
+  <p>Os números mostrados vêm dos painéis do Google dos perfis que eu gerencio, nos períodos indicados. Eles não são garantia de resultado: posição e desempenho no Google também dependem da concorrência, do algoritmo do Google e das avaliações espontâneas dos clientes.</p>
+  <h2>Imagens e portfólio</h2>
+  <p>As fotos 360° e os prints de sites são trabalhos realizados pela {site.name} e aparecem aqui como portfólio. Os sites citados pertencem às respectivas empresas.</p>
+  <h2>Marcas</h2>
+  <p>Google, Google Maps, Street View e Perfil da Empresa no Google são marcas do Google LLC. A {site.name} não é afiliada nem representante do Google.</p>
+  <h2>Contato</h2>
+  <p>Dúvidas sobre estes termos: {site.contact.email}.</p>
+</Legal>
+<style>
+  h2 { overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+</style>

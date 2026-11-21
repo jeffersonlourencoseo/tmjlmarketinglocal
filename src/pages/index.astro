@@ -1,28 +1,203 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import Hero from "../components/Hero.astro";
-import Diferenciais from "../sections/Diferenciais.astro";
-import SobreResumo from "../sections/SobreResumo.astro";
-import Services from "../sections/Services.astro";
-import Portfolio360 from "../sections/Portfolio360.astro";
-import Depoimentos from "../sections/Depoimentos.astro";
-import ContatoCTA from "../sections/ContatoCTA.astro";
-import WhatsAppFloat from "../components/WhatsAppFloat.astro";
-import Footer from "../components/Footer.astro";
----
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import SurveyMap from '../components/SurveyMap.astro';
+import Faq from '../components/Faq.astro';
+import Closing from '../components/Closing.astro';
+import Depoimentos from '../components/Depoimentos.astro';
+import { wa } from '../data/config';
+import { faqNode, serviceNode } from '../data/schema';
+import { faqsHome } from '../data/faqs';
 
-<Layout>
-  <Header />
-  <main class="bg-secondary">
-    <Hero />
-    <Diferenciais />
-    <SobreResumo />
-    <Services />
-    <Portfolio360 />
-    <Depoimentos />
-    <ContatoCTA />
-  </main>
-  <Footer />
-  <WhatsAppFloat />
-</Layout>
+const clientes = ['Casa do Brincar', 'Sabor que Sustenta', 'Barbearia Black Jack', 'URUS Barbershop', 'Over Barber Conceito', 'Barbearia Los Hermanos', 'Apimentada Fashion', 'Gentlemens Barber Beer', 'Seu Restaurante Bicão', 'Ambtec', 'Samir Trindade', 'Clínica Nívea Odonto'];
+const gmn = [
+  { t: 'Criação de perfil', d: 'Do zero até a verificação no Google.' },
+  { t: 'Otimização de perfil', d: 'Completo, com palavras-chave e fotos geotagueadas.' },
+  { t: 'Gestão mensal', d: 'Posts semanais, avaliações respondidas e relatório.' },
+];
+const diagnostico = ['Categoria correta', 'Endereço e contato', 'Horário', 'Descrição com palavras-chave', 'Fotos atuais', 'Resposta às avaliações', 'Postagens regulares', 'Produtos e serviços', 'Textos para buscas com IA', 'Diretórios de confiança'];
+const passos = [
+  { t: 'Diagnóstico', d: 'Perfil atual e concorrência da sua região.' },
+  { t: 'Otimização', d: 'Perfil completo e estruturado para ranquear.' },
+  { t: 'Fotos e posts', d: 'Fotos geotagueadas e conteúdo atualizado.' },
+  { t: '30 dias de gestão', d: 'Avaliações respondidas e resultado acompanhado.' },
+];
+const schema = [
+  serviceNode('Criação e otimização de Google Meu Negócio', '/google-meu-negocio/', 'Criação, otimização e gestão mensal do Perfil da Empresa no Google.'),
+  serviceNode('Criação de site institucional', '/criacao-de-sites/', 'Site institucional com SEO local, textos, domínio e hospedagem configurados, WhatsApp e mapa.'),
+  serviceNode('Fotos 360° e tour virtual', '/fotos-360/', 'Fotos 360°, tour virtual e visualizador 360° no site, na cidade do Rio de Janeiro.'),
+  faqNode(faqsHome),
+];
+---
+<Base
+  title="Especialista em Google Meu Negócio | Jefferson Lourenço"
+  description="Especialista em Google Meu Negócio: criação e otimização do perfil da sua empresa, sites profissionais e fotos 360°. Atendimento 100% remoto e direto comigo."
+  schema={schema}
+  waTopic="o Google Meu Negócio da minha empresa"
+>
+  <!-- Topo: Stage, o mapa como visual -->
+  <section class="hero" aria-labelledby="hero-t">
+    <div class="container hero__in">
+      <div class="hero__copy">
+        <h1 id="hero-t">Especialista em Google Meu Negócio</h1>
+        <p class="lead">Mais clientes te achando no Google Maps. Crio, otimizo e cuido do perfil da sua empresa.</p>
+        <div class="actions">
+          <a class="btn btn--primary" href={wa('uma análise do meu perfil no Google')} target="_blank" rel="noopener" data-wa="topo"><Icon name="whatsapp" /> Quero mais clientes</a>
+          <a class="btn" href="#servicos">Ver serviços</a>
+        </div>
+        <p class="hero__by">
+          <img src="/img/jefferson-lourenco.webp" width="900" height="837" alt="" />
+          <span>Jefferson Lourenço.<br />Você fala com quem executa.</span>
+        </p>
+      </div>
+      <div class="hero__map"><SurveyMap /></div>
+    </div>
+  </section>
+
+  <!-- Números -->
+  <section class="figs ink" aria-labelledby="figs-t">
+    <div class="container">
+      <h2 id="figs-t" class="visually-hidden">Resultados nos perfis que eu gerencio</h2>
+      <ul class="figs__row" role="list">
+        <li><span class="figs__n tnum" data-count="70605">70.605</span><span class="figs__l">pessoas viram os perfis que eu gerencio, de junho a novembro de 2026</span></li>
+        <li><span class="figs__n tnum"><span data-count="660">660</span> mil+</span><span class="figs__l">visualizações das fotos e vídeos publicados nesses perfis</span></li>
+        <li><span class="figs__n tnum">4,9</span><span class="figs__l">nota média nas avaliações de clientes reais</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Google Meu Negócio: Split -->
+  <section class="section--l" id="servicos" aria-labelledby="gmn-t">
+    <div class="container gmn">
+      <div class="gmn__copy">
+        <h2 id="gmn-t">Google Meu Negócio</h2>
+        <p class="lead">Seu perfil completo e ativo para aparecer no mapa quando alguém procura perto.</p>
+        <ul class="rows ruled" role="list">
+          {gmn.map((g) => <li><strong>{g.t}</strong><span>{g.d}</span></li>)}
+        </ul>
+        <div class="actions">
+          <a class="btn btn--primary" href={wa('a criação ou otimização do meu Google Meu Negócio')} target="_blank" rel="noopener" data-wa="servico_gmn"><Icon name="whatsapp" /> Pedir orçamento</a>
+          <a class="more" href="/google-meu-negocio/">Ver o serviço</a>
+        </div>
+      </div>
+      <div class="entry gmn__entry">
+        <div class="gmn__head"><span>Diagnóstico do perfil</span><span><span class="num">10</span> pontos</span></div>
+        <ol class="gmn__list notebook">
+          {diagnostico.map((d) => <li><span class="gmn__ok" aria-hidden="true"></span>{d}</li>)}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sites e 360°: dois serviços lado a lado -->
+  <section class="section band" aria-labelledby="mais-t">
+    <div class="container">
+      <div class="head">
+        <h2 id="mais-t">Site e fotos 360°</h2>
+        <p>Serviços separados. Se fizer sentido, monto um pacote com o perfil.</p>
+      </div>
+      <div class="duo">
+        <article class="duo__tile card">
+          <img class="duo__img" src="/img/sites/over-d.webp" width="1200" height="750" alt="Site da Over Barber Conceito feito pela TMJL" loading="lazy" />
+          <div class="duo__body">
+            <h3>Site institucional</h3>
+            <ul class="ticks"><li>Domínio e hospedagem configurados</li><li>Textos prontos e SEO local</li><li>WhatsApp e mapa em todas as páginas</li></ul>
+            <a class="more" href="/criacao-de-sites/">Ver sites no ar</a>
+          </div>
+        </article>
+        <article class="duo__tile card">
+          <img class="duo__img" src="/panoramas/loja-apimentada/cards/03-poster.webp" width="1400" height="752" alt="Foto 360° da loja Apimentada Fashion" loading="lazy" />
+          <div class="duo__body">
+            <h3>Fotos 360°</h3>
+            <ul class="ticks"><li>Fotos 360° no Google Maps</li><li>Tour virtual</li><li>360° no seu site</li></ul>
+            <p class="duo__where">Somente na cidade do Rio de Janeiro.</p>
+            <a class="more" href="/fotos-360/">Girar as fotos</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como funciona: Steps -->
+  <section class="section" aria-labelledby="passos-t">
+    <div class="container">
+      <div class="head"><h2 id="passos-t">Como funciona</h2></div>
+      <ol class="steps">
+        {passos.map((p) => <li><h3>{p.t}</h3><p>{p.d}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Quem faz: Split espelhado -->
+  <section class="section sheet" aria-labelledby="sobre-t">
+    <div class="container about">
+      <img class="about__img" src="/img/jefferson-lourenco.webp" width="900" height="837" alt="Jefferson Lourenço, da TMJL Marketing Local" loading="lazy" />
+      <div class="about__copy">
+        <h2 id="sobre-t">Quem cuida do seu perfil</h2>
+        <p class="lead">Sou Jefferson Lourenço, da TMJL Marketing Local. Atendimento 100% remoto e sem atendente: quem faz o trabalho responde o seu WhatsApp.</p>
+        <p class="caption">Já trabalharam comigo:</p>
+        <ul class="names" role="list">{clientes.map((c) => <li>{c}</li>)}</ul>
+        <a class="more" href="/quem-somos/">Conheça a TMJL</a>
+      </div>
+    </div>
+  </section>
+
+  <Depoimentos />
+  <Faq faqs={faqsHome} />
+  <Closing />
+</Base>
+
+<style>
+  .hero { padding-block: var(--space-xl) var(--space-3xl); }
+  .hero__in { display: grid; gap: var(--space-xl); grid-template-columns: minmax(0, 1fr); align-items: center; }
+  @media (min-width: 60rem) { .hero__in { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-2xl); min-height: calc(100dvh - 72px - var(--space-xl) - var(--space-3xl)); } }
+  .hero__copy { display: grid; gap: var(--space-lg); justify-items: start; }
+  .hero h1 { max-width: 12ch; text-wrap: balance; }
+  .hero__by { display: flex; align-items: center; gap: var(--space-md); margin-top: var(--space-md); font-size: var(--text-sm); color: var(--color-muted); }
+  .hero__by img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; object-position: 50% 15%; box-shadow: 0 0 0 1px var(--color-ink); }
+  .hero__map { height: clamp(520px, 72dvh, 680px); }
+
+  .figs { padding-block: var(--space-3xl); }
+  .figs__row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
+  .figs__row li { display: grid; gap: var(--space-sm); align-content: start; padding-block: var(--space-lg); border-top: var(--rule-hair) solid var(--color-ink-line); }
+  @media (min-width: 56rem) { .figs__row { grid-template-columns: repeat(3, minmax(0, 1fr)); } .figs__row li { padding: 0 var(--space-xl); border-top: 0; border-left: var(--rule-hair) solid var(--color-ink-line); } .figs__row li:first-child { padding-left: 0; border-left: 0; } }
+  .figs__n { font: 600 var(--text-display-s)/1 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-on-ink); white-space: nowrap; }
+  .figs__l { color: var(--color-on-ink-muted); max-width: 30ch; }
+
+  .gmn { display: grid; gap: var(--space-2xl); grid-template-columns: minmax(0, 1fr); align-items: center; }
+  @media (min-width: 60rem) { .gmn { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--space-3xl); } }
+  .gmn__copy { display: grid; gap: var(--space-lg); justify-items: start; }
+  .rows { list-style: none; margin: 0; padding: 0; width: 100%; }
+  .rows li { display: grid; gap: var(--space-2xs); padding-block: var(--space-md); }
+  @media (min-width: 40rem) { .rows li { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--space-lg); align-items: baseline; } }
+  .rows strong { font-size: var(--text-lg); }
+  .rows span { color: var(--color-muted); }
+  .gmn__head { display: flex; justify-content: space-between; padding: var(--space-sm) var(--space-lg); background: var(--color-ink); color: var(--color-on-ink); font-weight: 500; }
+  .gmn__list { list-style: none; margin: 0; padding: var(--space-md) var(--space-lg); display: grid; }
+  .gmn__list li { display: flex; align-items: center; gap: var(--space-sm); padding-block: var(--space-sm); border-bottom: var(--rule-hair) solid var(--color-grid-strong); color: var(--color-ink); font-weight: 500; }
+  .gmn__list li:last-child { border-bottom: 0; }
+  .gmn__ok { width: 18px; height: 18px; border-radius: var(--radius-pill); background: var(--color-green-soft); box-shadow: inset 0 0 0 1px var(--color-green); flex-shrink: 0; position: relative; }
+  .gmn__ok::after { content: ''; position: absolute; left: 6px; top: 3px; width: 4px; height: 8px; border: solid var(--color-green); border-width: 0 2px 2px 0; rotate: 45deg; }
+
+  .duo { display: grid; gap: var(--gap-columns); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 56rem) { .duo { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } }
+  .duo__tile { display: grid; grid-template-rows: auto 1fr; overflow: hidden; }
+  .duo__img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; border-bottom: var(--rule-hair) solid var(--color-rule); }
+  .duo__body { display: grid; gap: var(--space-md); align-content: start; justify-items: start; padding: var(--space-xl); }
+  .duo__body h3 { font-size: var(--text-2xl); }
+  .duo__where { padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-pill); background: var(--color-accent-soft); color: var(--color-ink); font-weight: 500; font-size: var(--text-sm); }
+
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; grid-template-columns: minmax(0, 1fr); border-top: var(--rule-hair) solid var(--color-ink); }
+  @media (min-width: 48rem) { .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .steps li { counter-increment: s; display: grid; gap: var(--space-sm); align-content: start; padding: var(--space-xl) var(--space-lg) var(--space-lg) 0; }
+  @media (min-width: 48rem) { .steps li + li { padding-left: var(--space-lg); border-left: var(--rule-hair) solid var(--color-rule); } }
+  .steps li::before { content: counter(s); font: 600 var(--text-display-s)/1 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-ink); }
+  .steps p { color: var(--color-muted); }
+
+  .about { display: grid; gap: var(--space-2xl); grid-template-columns: minmax(0, 1fr); align-items: center; }
+  @media (min-width: 60rem) { .about { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-3xl); } }
+  .about__img { width: 100%; border-radius: var(--radius-card); }
+  .about__copy { display: grid; gap: var(--space-lg); }
+  .names { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  .names li { padding: var(--space-xs) var(--space-sm); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-pill); background: var(--color-paper); font-size: var(--text-sm); font-weight: 500; color: var(--color-ink-2); }
+</style>

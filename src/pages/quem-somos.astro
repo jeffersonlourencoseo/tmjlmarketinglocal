@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Depoimentos from '../components/Depoimentos.astro';
+import Closing from '../components/Closing.astro';
+import Faq from '../components/Faq.astro';
+import { faqsConsultor } from '../data/faqs';
+import Icon from '../components/Icon.astro';
+import { site, wa } from '../data/config';
+import { breadcrumb, faqNode } from '../data/schema';
+
+const diferenciais = [
+  'Estratégia focada em SEO local e Google Maps',
+  'Relatórios com dados reais de visualizações, ligações e rotas',
+  'Gestão ética de avaliações e reputação online',
+  'Fotos 360° e tours virtuais publicados no perfil',
+  'Atendimento 100% remoto, direto com quem executa',
+];
+const valores = [
+  { t: 'Missão', d: 'Ajudar empresas a serem encontradas no Google Meu Negócio, convertendo buscas locais em clientes reais.' },
+  { t: 'Visão', d: 'Ser referência em marketing local: a parceira que pequenos e médios negócios procuram quando querem crescer no digital.' },
+  { t: 'Valores', d: 'Transparência, resultado mensurável, atendimento humano e compromisso com o crescimento de cada cliente.' },
+];
+const schema = [
+  breadcrumb([{ name: 'Quem somos', path: '/quem-somos/' }]),
+  { '@type': 'AboutPage', about: { '@id': `${site.url}/#empresa` }, mainEntity: { '@id': `${site.url}/#jefferson` } },
+  faqNode(faqsConsultor),
+];
+---
+<Base
+  title="Consultor de SEO local: quem somos | TMJL Marketing Local"
+  description="Conheça a TMJL Marketing Local e Jefferson Lourenço: perfis no Google Meu Negócio, sites e fotos 360°, com atendimento 100% remoto e direto. Fale comigo."
+  schema={schema}
+>
+  <PageHead crumbs={[{ name: 'Quem somos', path: '/quem-somos/' }]} title="Consultor de SEO local e Google Meu Negócio" lead="Sou Jefferson Lourenço, da TMJL Marketing Local. Faço sua empresa ser encontrada no Google, com trabalho técnico, mensurável e focado em resultado." />
+
+  <section class="section" aria-labelledby="hist-t">
+    <div class="container story">
+      <img class="story__img" src="/img/jefferson-lourenco.webp" width="900" height="837" alt="Jefferson Lourenço, fundador da TMJL Marketing Local" loading="eager" />
+      <div class="story__copy">
+        <h2 id="hist-t">Nasceu da vontade de gerar resultado real</h2>
+        <p>A TMJL Marketing Local nasceu com um propósito claro: ajudar pequenas e médias empresas a conquistarem visibilidade real no Google Meu Negócio.</p>
+        <p>Não acreditamos em promessas vazias. O trabalho é técnico, mensurável e focado em resultado: mais ligações, mais rotas no mapa e mais clientes qualificados.</p>
+        <p>Atuamos com criação de perfis, otimização local, gestão de avaliações, fotos 360° e conteúdo para o Google Maps. Cada ação é pensada para ranqueamento orgânico e conversão.</p>
+        <p class="story__sig"><strong>{site.person}</strong><span class="caption">Fundador da TMJL Marketing Local</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="faz-t">
+    <div class="container">
+      <div class="head">
+        <h2 id="faz-t">O que um consultor de SEO local faz pela sua empresa</h2>
+        <p>Faz a empresa aparecer para quem procura perto: no mapa, no perfil do Google e no site.</p>
+      </div>
+      <ul class="faz" role="list">
+        <li><h3>Google Meu Negócio</h3><p>Criação e otimização do perfil, com diagnóstico de 10 pontos e 30 dias de gestão.</p><a class="more" href="/google-meu-negocio/">Ver o serviço</a></li>
+        <li><h3>Sites profissionais</h3><p>Site institucional com SEO local, textos prontos e WhatsApp.</p><a class="more" href="/criacao-de-sites/">Ver o serviço</a></li>
+        <li><h3>Fotos 360°</h3><p>Tour virtual e fotos 360° no Google Maps, na cidade do Rio de Janeiro.</p><a class="more" href="/fotos-360/">Ver o serviço</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section band" aria-labelledby="move-t">
+    <div class="container move">
+      <h2 id="move-t">O que nos move</h2>
+      <ul class="ticks move__list">{diferenciais.map((d) => <li>{d}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="mvv-t">
+    <div class="container">
+      <div class="head"><h2 id="mvv-t">Missão, visão e valores</h2></div>
+      <ul class="mvv" role="list">
+        {valores.map((v) => <li><h3>{v.t}</h3><p>{v.d}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <Depoimentos />
+
+  <section class="section sheet" aria-labelledby="comp-t">
+    <div class="container comp">
+      <h2 id="comp-t">Transparência e resultado em primeiro lugar</h2>
+      <div class="comp__side">
+        <p class="lead">Cada cliente recebe acompanhamento com métricas reais do Google Meu Negócio. O que importa não é só aparecer: é gerar ligações, visitas e vendas.</p>
+        <div class="actions">
+          <a class="btn btn--primary" href={wa('os serviços da TMJL')} target="_blank" rel="noopener" data-wa="quem_somos"><Icon name="whatsapp" /> Falar com a TMJL</a>
+          <a class="more" href={site.gmnUrl} target="_blank" rel="noopener">Ver meu perfil no Google</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Faq faqs={faqsConsultor} />
+  <Closing />
+</Base>
+<style>
+  .story { display: grid; gap: var(--space-2xl); grid-template-columns: minmax(0, 1fr); align-items: center; }
+  @media (min-width: 60rem) { .story { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-3xl); } }
+  .story__img { width: 100%; border-radius: var(--radius-card); }
+  .story__copy { display: grid; gap: var(--space-md); }
+  .story__copy h2 { margin-bottom: var(--space-sm); }
+  .story__sig { display: grid; gap: var(--space-3xs); margin-top: var(--space-md); padding-top: var(--space-md); border-top: var(--rule-hair) solid var(--color-ink); }
+  .move { display: grid; gap: var(--space-xl); grid-template-columns: minmax(0, 1fr); align-items: start; }
+  @media (min-width: 60rem) { .move { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-3xl); } }
+  .move__list li { font-size: var(--text-lg); color: var(--color-ink); padding-block: var(--space-xs); }
+  .mvv { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); border-top: var(--rule-hair) solid var(--color-ink); }
+  @media (min-width: 56rem) { .mvv { grid-template-columns: repeat(3, minmax(0, 1fr)); } .mvv li + li { border-left: var(--rule-hair) solid var(--color-rule); padding-left: var(--space-xl); } .mvv li:not(:last-child) { padding-right: var(--space-xl); } }
+  .mvv li { display: grid; gap: var(--space-sm); align-content: start; padding-block: var(--space-xl); }
+  .mvv h3 { font-size: var(--text-2xl); }
+  .faz { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); border-top: var(--rule-hair) solid var(--color-ink); }
+  @media (min-width: 56rem) { .faz { grid-template-columns: repeat(3, minmax(0, 1fr)); } .faz li + li { border-left: var(--rule-hair) solid var(--color-rule); padding-left: var(--space-xl); } .faz li:not(:last-child) { padding-right: var(--space-xl); } }
+  .faz li { display: grid; gap: var(--space-sm); align-content: start; justify-items: start; padding-block: var(--space-xl); }
+  .faz p { color: var(--color-muted); }
+  .comp { display: grid; gap: var(--space-xl); grid-template-columns: minmax(0, 1fr); align-items: end; }
+  @media (min-width: 60rem) { .comp { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: var(--space-3xl); } }
+  .comp__side { display: grid; gap: var(--space-lg); justify-items: start; }
+</style>

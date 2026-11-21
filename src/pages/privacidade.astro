@@ -1,54 +1,24 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import Legal from '../components/Legal.astro';
+import { site } from '../data/config';
 ---
-
-<Layout
-  title="Política de Privacidade | TMJL Marketing Local"
-  description="Política de privacidade da TMJL Marketing Local. Saiba como tratamos seus dados.">
-  <Header />
-  <main class="pt-24 bg-secondary">
-    <section class="py-28 lg:py-36">
-      <div class="container mx-auto px-6 lg:px-12">
-        <div class="max-w-4xl mx-auto">
-          <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary leading-tight mb-16">
-            Política de Privacidade
-          </h1>
-
-          <div class="space-y-6 text-lg text-muted leading-relaxed">
-            <p>
-              A TMJL Marketing Local valoriza a privacidade dos visitantes e clientes. Esta política descreve como coletamos, usamos e protegemos as informações fornecidas em nosso site.
-            </p>
-
-            <h2 class="font-display text-2xl font-bold text-primary mt-12 mb-4">Coleta de dados</h2>
-            <p>
-              Coletamos dados pessoais apenas quando você preenche nosso formulário de contato ou envia uma mensagem direta. Os dados podem incluir nome, e-mail, telefone e informações sobre o serviço de interesse.
-            </p>
-
-            <h2 class="font-display text-2xl font-bold text-primary mt-12 mb-4">Uso das informações</h2>
-            <p>
-              As informações são utilizadas exclusivamente para responder suas solicitações, enviar propostas e prestar os serviços contratados. Não vendemos, alugamos ou compartilhamos seus dados com terceiros para fins de marketing.
-            </p>
-
-            <h2 class="font-display text-2xl font-bold text-primary mt-12 mb-4">Segurança</h2>
-            <p>
-              Adotamos medidas técnicas e organizacionais para proteger seus dados contra acesso não autorizado, alteração, divulgação ou destruição.
-            </p>
-
-            <h2 class="font-display text-2xl font-bold text-primary mt-12 mb-4">Cookies e análises</h2>
-            <p>
-              Nosso site pode utilizar cookies para melhorar a experiência de navegação e ferramentas de análise para entender o comportamento dos visitantes. Você pode desativar os cookies nas configurações do navegador.
-            </p>
-
-            <h2 class="font-display text-2xl font-bold text-primary mt-12 mb-4">Seus direitos</h2>
-            <p>
-              Você pode solicitar acesso, correção ou exclusão dos seus dados a qualquer momento, entrando em contato pelo e-mail jeffersonlourencoseo@gmail.com.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <Footer />
-</Layout>
+<Legal title="Política de privacidade" path="/privacidade/" description="Política de privacidade da TMJL Marketing Local: quais dados o site coleta, para que usamos, com quem compartilhamos e como exercer seus direitos pela LGPD.">
+  <p>Última atualização: novembro de 2026.</p>
+  <h2>Quem somos</h2>
+  <p>{site.name}, responsável {site.person}, com atendimento na {site.contact.street}, {site.contact.district}, {site.contact.city}. Contato: {site.contact.email}.</p>
+  <h2>Dados que coletamos</h2>
+  <p>Este site não tem cadastro nem guarda formulários. Quando você usa o formulário de contato ou um botão de WhatsApp, a mensagem é aberta no seu próprio WhatsApp e só chega até mim se você enviar.</p>
+  <p>Podemos usar o Google Analytics para medir visitas e cliques em botões de contato, de forma agregada. Essas ferramentas podem usar cookies.</p>
+  <h2>Para que usamos</h2>
+  <ul>
+    <li>Responder o seu contato e enviar propostas que você pediu.</li>
+    <li>Entender quais páginas ajudam mais os visitantes e melhorar o site.</li>
+  </ul>
+  <h2>Compartilhamento</h2>
+  <p>Não vendemos nem repassamos seus dados. Serviços de terceiros usados no site (WhatsApp, Google Maps, Google Analytics e a hospedagem) seguem as suas próprias políticas de privacidade.</p>
+  <h2>Seus direitos</h2>
+  <p>Pela Lei Geral de Proteção de Dados (Lei 13.709/2018), você pode pedir acesso, correção ou exclusão dos seus dados a qualquer momento pelo e-mail {site.contact.email}.</p>
+</Legal>
+<style>
+  h2 { overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+</style>

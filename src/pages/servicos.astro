@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Closing from '../components/Closing.astro';
+import Icon from '../components/Icon.astro';
+import SurveyMap from '../components/SurveyMap.astro';
+import { site, wa } from '../data/config';
+import { breadcrumb } from '../data/schema';
+
+const servicos = [
+  { n: '01', t: 'Criação ou otimização de Google Meu Negócio', d: 'Perfil da empresa completo e ativo no Google, com diagnóstico de 10 pontos, palavras-chave, fotos geotagueadas, posts, avaliações respondidas e 30 dias de gestão.', href: '/google-meu-negocio/', img: '', w: 0, h: 0, alt: '', extra: 'Gestão mensal disponível como continuidade opcional depois dos 30 dias.' },
+  { n: '02', t: 'Criação de site profissional', d: 'Site institucional rápido no celular, com domínio e hospedagem configurados, textos prontos, SEO local, WhatsApp e mapa.', href: '/criacao-de-sites/', img: '/img/sites/over-d.webp', w: 1200, h: 750, alt: 'Site da Over Barber Conceito, criado pela TMJL', extra: 'O domínio é pago direto ao provedor, no seu nome.' },
+  { n: '03', t: 'Fotos 360° e tour virtual', d: 'Fotos 360 graus no Google Maps, tour virtual 360 e visualizador 360° no seu site.', href: '/fotos-360/', img: '/panoramas/loja-apimentada/cards/03-poster.webp', w: 1400, h: 752, alt: 'Foto 360 graus da loja Apimentada Fashion', extra: 'Somente na cidade do Rio de Janeiro.' },
+];
+const schema = [
+  breadcrumb([{ name: 'Serviços', path: '/servicos/' }]),
+  { '@type': 'ItemList', name: 'Serviços da TMJL Marketing Local', itemListElement: servicos.map((s, i) => ({ '@type': 'ListItem', position: i + 1, url: `${site.url}${s.href}`, name: s.t })) },
+];
+---
+<Base
+  title="Serviços: Google Meu Negócio, sites e fotos 360° | TMJL"
+  description="Serviços da TMJL: criação ou otimização de Google Meu Negócio, criação de sites profissionais e fotos 360° com tour virtual. Contrate um ou monte um pacote."
+  schema={schema}
+>
+  <PageHead crumbs={[{ name: 'Serviços', path: '/servicos/' }]} title="Serviços" lead="Três serviços separados. Contrate só o que precisa ou monte um pacote para a sua empresa." />
+
+  {servicos.map((s, i) => (
+    <section class={`section ${i % 2 ? 'band' : ''}`} aria-labelledby={`s${s.n}`}>
+      <div class={`container svc ${i % 2 ? 'svc--rev' : ''}`}>
+        {i === 0 ? <div class="svc__map"><SurveyMap /></div> : <a class="svc__img" href={s.href} tabindex="-1" aria-hidden="true"><img src={s.img} width={s.w} height={s.h} alt="" loading="lazy" /></a>}
+        <div class="svc__copy">
+          <span class="num">{s.n}</span>
+          <h2 id={`s${s.n}`}>{s.t}</h2>
+          <p class="lead">{s.d}</p>
+          <p class="caption">{s.extra}</p>
+          <div class="actions">
+            <a class="btn btn--primary" href={wa(s.t.toLowerCase())} target="_blank" rel="noopener" data-wa={`servicos_${s.n}`}><Icon name="whatsapp" /> Pedir orçamento</a>
+            <a class="more" href={s.href}>Ver o serviço</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <Closing />
+</Base>
+<style>
+  .svc { display: grid; gap: var(--space-2xl); grid-template-columns: minmax(0, 1fr); align-items: center; }
+  @media (min-width: 60rem) { .svc { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: var(--space-3xl); } .svc--rev .svc__img { order: 2; } }
+  .svc__map { height: clamp(420px, 56dvh, 560px); }
+  .svc__img { display: block; overflow: hidden; border-radius: var(--radius-card); box-shadow: 0 0 0 1px var(--color-rule); }
+  .svc__img img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: left top; }
+  .svc__copy { display: grid; gap: var(--space-md); justify-items: start; }
+  .svc__copy .num { color: var(--color-muted); }
+  .svc__copy h2 { font-size: var(--text-section); }
+</style>

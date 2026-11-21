@@ -1,57 +1,130 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import ClientCard360 from "../components/ClientCard360.astro";
-import PanoramaViewer from "../components/PanoramaViewer.astro";
-import WhatsAppFloat from "../components/WhatsAppFloat.astro";
-import { clients } from "../data/clients.ts";
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Pano from '../components/Pano.astro';
+import Faq from '../components/Faq.astro';
+import Closing from '../components/Closing.astro';
+import Icon from '../components/Icon.astro';
+import { wa } from '../data/config';
+import { panos } from '../data/portfolio';
+import { breadcrumb, faqNode, serviceNode } from '../data/schema';
+import { faqs360 } from '../data/faqs';
+
+const demo = panos.find((p) => p.id === 'loja-apimentada')!;
+const servicos = [
+  { t: 'Fotos 360° no Google Maps', d: 'Os ambientes do seu negócio publicados no perfil, na aba Street View e 360°.' },
+  { t: 'Tour virtual 360', d: 'Ambientes ligados em sequência: o cliente “caminha” pelo espaço, como no Street View.' },
+  { t: '360° no seu site', d: 'O visualizador 360° dentro do site, com a sua identidade e sem plataforma paga.' },
+];
+const beneficios = ['O cliente conhece o espaço antes de sair de casa', 'Mais tempo olhando o seu perfil no Google', 'Destaque contra concorrentes que só têm fotos comuns', 'Mais confiança na primeira visita'];
+const passos = [
+  { t: 'Agendamento', d: 'Combinamos um horário com o local vazio ou tranquilo.' },
+  { t: 'Captura', d: 'Fotografo cada ambiente com câmera 360°.' },
+  { t: 'Tratamento', d: 'Ajuste de imagem e definição dos pontos.' },
+  { t: 'Publicação', d: 'Fotos no Google Maps e, se quiser, no seu site.' },
+];
+const schema = [
+  breadcrumb([{ name: 'Serviços', path: '/servicos/' }, { name: 'Fotos 360°', path: '/fotos-360/' }]),
+  serviceNode('Tour virtual 360 e fotos 360 graus', '/fotos-360/', 'Tour virtual 360, fotos 360 graus no Google Maps e visualizador 360° no site, feitos na cidade do Rio de Janeiro.'),
+  faqNode(faqs360),
+];
 ---
-
-<Layout
-  title="Fotos 360° e Tour Virtual | TMJL Marketing Local"
-  description="Portfólio de fotos 360° e tours virtuais de estabelecimentos no Rio de Janeiro. TMJL Marketing Local."
+<Base
+  title="Tour virtual 360 e fotos 360 graus no Google | TMJL"
+  description="Tour virtual 360 e fotos 360 graus publicados no Google Maps e no seu site, feitos na cidade do Rio de Janeiro. Gire as fotos de empresas que já fotografei."
+  schema={schema}
+  waTopic="fotos 360° para a minha empresa"
 >
-  <Header />
+  <PageHead crumbs={[{ name: 'Serviços', path: '/servicos/' }, { name: 'Fotos 360°', path: '/fotos-360/' }]} title="Tour virtual 360 e fotos 360 graus" lead="Seu cliente conhece o espaço antes de sair de casa. Fotos feitas somente na cidade do Rio de Janeiro.">
+    <div class="actions">
+      <a class="btn btn--primary" href={wa('fotos 360° para a minha empresa')} target="_blank" rel="noopener" data-wa="360_topo"><Icon name="whatsapp" /> Pedir orçamento</a>
+      <a class="btn" href="#galeria">Ver empresas</a>
+    </div>
+  </PageHead>
 
-  <main class="pt-24 bg-surface-dark">
-    <section class="relative py-32 lg:py-40 border-b border-white/5 overflow-hidden">
-      <div class="absolute inset-0 pointer-events-none">
-        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[140px] -translate-y-1/2 translate-x-1/4"></div>
+  <section class="section" aria-label="Exemplo de tour virtual 360">
+    <div class="container">
+      <Pano pano={demo} eager priority class="pano--tall" caption={`<strong>${demo.name}</strong>. Escolha o ambiente ou arraste a imagem para girar.`} />
+    </div>
+  </section>
+
+  <section class="section band" aria-labelledby="oque-t">
+    <div class="container split">
+      <div class="split__copy">
+        <h2 id="oque-t">O que é um tour virtual 360</h2>
+        <p class="lead">São fotos esféricas que mostram o ambiente em todas as direções. O cliente gira a imagem como se estivesse dentro do lugar.</p>
+        <p>As fotos aparecem no seu perfil do Google, na seção “Street View e 360°”, e podem ir para o seu site. No tour virtual, os ambientes ficam ligados e a pessoa passa de um para o outro.</p>
       </div>
-
-      <div class="container mx-auto px-6 lg:px-12 relative text-center">
-        <p class="text-accent font-semibold tracking-[0.2em] uppercase text-sm mb-6">
-          Portfólio
-        </p>
-        <h1 class="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-8">
-          Fotos 360° e Tour Virtual
-        </h1>
-        <p class="text-lg md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-          Experiências imersivas para restaurantes, bares, academias, clínicas, escolas e comércios locais no Rio de Janeiro.
-        </p>
+      <div>
+        <h3 class="split__h">Benefícios para a sua empresa</h3>
+        <ul class="ticks ben">{beneficios.map((b) => <li>{b}</li>)}</ul>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="py-28 lg:py-36">
-      <div class="container mx-auto px-6 lg:px-12">
-        <div class="mb-20 lg:mb-24 text-center">
-          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent mb-3">
-            Alguns dos nossos clientes
-          </p>
-          <h2 class="font-display text-3xl md:text-4xl font-bold text-white">
-            Clique para explorar os ambientes
-          </h2>
-        </div>
-
-        <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {clients.map((client) => <ClientCard360 client={client} />)}
-        </div>
+  <section class="section" aria-labelledby="serv-t">
+    <div class="container">
+      <div class="head">
+        <h2 id="serv-t">O que eu faço em 360°</h2>
+        <p>Serviços separados do Google Meu Negócio. Se quiser os dois, monto um pacote.</p>
       </div>
-    </section>
-  </main>
+      <ul class="rows ruled" role="list">{servicos.map((s) => <li><h3>{s.t}</h3><p>{s.d}</p></li>)}</ul>
+      <p class="where"><Icon name="pin" /> Fotos feitas presencialmente e apenas na cidade do Rio de Janeiro.</p>
+    </div>
+  </section>
 
-  <Footer />
-  <PanoramaViewer />
-  <WhatsAppFloat />
-</Layout>
+  <section class="section sheet" aria-labelledby="passos-t">
+    <div class="container">
+      <div class="head"><h2 id="passos-t">Como funciona</h2></div>
+      <ol class="steps">{passos.map((p) => <li><h3>{p.t}</h3><p>{p.d}</p></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="section" id="galeria" aria-labelledby="gal-t">
+    <div class="container">
+      <div class="head">
+        <h2 id="gal-t">Empresas que já fotografei</h2>
+        <p>Toque em uma empresa para girar as fotos.</p>
+      </div>
+      <ul class="gallery" role="list">
+        {panos.map((p) => (
+          <li>
+            <a href={`/portfolio/360/${p.id}/`}>
+              <img src={`/panoramas/${p.id}/cards/01.webp`} width="1000" height="500" alt={`Foto 360 graus de ${p.name}`} loading="lazy" decoding="async" />
+              <span class="gallery__name">{p.name}</span>
+              <span class="caption">{p.category}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Faq faqs={faqs360} />
+  <Closing title="Quer seu espaço em 360°?" text="Me chama no WhatsApp com o nome da empresa e o bairro do Rio. Eu marco a sessão de fotos." topic="fotos 360° para a minha empresa" />
+</Base>
+<style>
+  .split { display: grid; gap: var(--space-2xl); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 60rem) { .split { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: var(--space-3xl); } }
+  .split__copy { display: grid; gap: var(--space-lg); align-content: start; }
+  .split__h { margin-bottom: var(--space-md); }
+  .ben li { font-size: var(--text-lg); color: var(--color-ink); padding-block: var(--space-xs); }
+  .rows { list-style: none; margin: 0; padding: 0; }
+  .rows li { display: grid; gap: var(--space-xs); padding-block: var(--space-lg); }
+  @media (min-width: 56rem) { .rows li { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--gap-columns); align-items: baseline; } }
+  .rows h3 { font-size: var(--text-title); }
+  .where { display: inline-flex; gap: var(--space-xs); align-items: center; margin-top: var(--space-xl); padding: var(--space-xs) var(--space-md); border-radius: var(--radius-pill); background: var(--color-accent-soft); color: var(--color-ink); font-weight: 500; }
+  .where :global(svg) { width: 18px; height: 18px; flex-shrink: 0; }
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; grid-template-columns: minmax(0, 1fr); border-top: var(--rule-hair) solid var(--color-ink); }
+  @media (min-width: 48rem) { .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } .steps li + li { padding-left: var(--space-lg); border-left: var(--rule-hair) solid var(--color-rule); } }
+  .steps li { counter-increment: s; display: grid; gap: var(--space-sm); align-content: start; padding: var(--space-xl) var(--space-lg) var(--space-lg) 0; }
+  .steps li::before { content: counter(s); font: 600 var(--text-display-s)/1 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-ink); }
+  .steps p { color: var(--color-muted); }
+  .gallery { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2xl) var(--gap-columns); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 40rem) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .gallery a { display: grid; gap: var(--space-2xs); text-decoration: none; }
+  .gallery img { width: 100%; aspect-ratio: 2 / 1; object-fit: cover; border-radius: var(--radius-card); box-shadow: 0 0 0 1px var(--color-rule); margin-bottom: var(--space-sm); transition: box-shadow var(--dur-short) var(--ease-out); }
+  .gallery a:hover img { box-shadow: 0 0 0 1px var(--color-ink), var(--shadow-card); }
+  .gallery__name { font: 600 var(--text-title)/1.2 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-ink); }
+</style>

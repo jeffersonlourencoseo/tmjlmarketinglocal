@@ -1,0 +1,265 @@
+---
+import '../styles/global.css';
+import { site, nav, wa, fullAddress } from '../data/config';
+import { orgNode, personNode, websiteNode } from '../data/schema';
+import Icon from '../components/Icon.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  schema?: object[];
+  noindex?: boolean;
+  waTopic?: string;
+}
+const { title, description, image = '/og-image.jpg', type = 'website', schema = [], noindex = false, waTopic } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL(image, site.url).href;
+const path = Astro.url.pathname;
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    orgNode,
+    personNode,
+    websiteNode,
+    { '@type': 'WebPage', '@id': `${canonical}#pagina`, url: canonical, name: title, description, isPartOf: { '@id': websiteNode['@id'] }, about: { '@id': orgNode['@id'] }, inLanguage: site.lang, primaryImageOfPage: ogImage },
+    ...schema,
+  ],
+};
+const year = new Date().getFullYear();
+const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex, follow" />}
+  <meta name="theme-color" content="#f4f0e8" />
+  <meta name="author" content={site.person} />
+  <meta name="geo.region" content="BR-RJ" />
+  <meta name="geo.placename" content="Rio de Janeiro" />
+  <meta property="og:type" content={type} />
+  <meta property="og:locale" content={site.locale} />
+  <meta property="og:site_name" content={site.name} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="preload" href="/fonts/red-hat-display-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/red-hat-text-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <slot name="head" />
+  <script is:inline>document.documentElement.classList.add('js');</script>
+  <script type="application/ld+json" set:html={JSON.stringify(graph)} />
+  {site.ga4Id && (
+    <>
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${site.ga4Id}`}></script>
+      <script is:inline define:vars={{ id: site.ga4Id }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config',id);</script>
+    </>
+  )}
+</head>
+<body>
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topbar" data-topbar>
+    <div class="container topbar__in">
+      <a class="brand" href="/" aria-label="TMJL Marketing Local, página inicial">
+        <img src="/img/marca.png" width="152" height="176" alt="" class="brand__mark" />
+        <span class="brand__word">TMJL<small>Marketing local</small></span>
+      </a>
+      <nav class="mainnav" aria-label="Principal">
+        <ul>
+          {nav.map((n) => <li><a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a></li>)}
+        </ul>
+      </nav>
+      <a class="btn topbar__cta" href={wa(waTopic)} target="_blank" rel="noopener" data-wa="cabecalho">
+        <Icon name="whatsapp" /> WhatsApp
+      </a>
+      <button class="menubtn" type="button" aria-expanded="false" aria-controls="menu-movel" data-menubtn>
+        <span class="visually-hidden">Abrir menu</span><Icon name="menu" />
+      </button>
+    </div>
+    <div class="mobilemenu" id="menu-movel" hidden data-menu>
+      <nav class="container" aria-label="Menu">
+        <ul>
+          <li><a href="/">Início</a></li>
+          {nav.map((n) => <li><a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a></li>)}
+        </ul>
+        <a class="btn btn--gold" href={wa(waTopic)} target="_blank" rel="noopener" data-wa="menu_movel"><Icon name="whatsapp" /> Chamar no WhatsApp</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <slot />
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <span class="footer__word"><img src="/img/marca.png" width="152" height="176" alt="" /> TMJL <small>Marketing local</small></span>
+          <p class="muted">Google Meu Negócio, sites e fotos 360°. Quem atende é quem executa: {site.person}.</p>
+        </div>
+        <div>
+          <h2 class="footer__h">Serviços</h2>
+          <ul class="footer__list">
+            <li><a href="/servicos/">Todos os serviços</a></li>
+            <li><a href="/google-meu-negocio/">Google Meu Negócio</a></li>
+            <li><a href="/fotos-360/">Fotos 360° e tour virtual</a></li>
+            <li><a href="/criacao-de-sites/">Criação de sites</a></li>
+            <li><a href="/portfolio/">Portfólio</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer__h">TMJL</h2>
+          <ul class="footer__list">
+            <li><a href="/quem-somos/">Quem somos</a></li>
+            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/contato/">Contato</a></li>
+            <li><a href="/privacidade/">Privacidade</a></li>
+            <li><a href="/termos/">Termos de uso</a></li>
+          </ul>
+        </div>
+        <address class="footer__nap">
+          <h2 class="footer__h">Fale comigo</h2>
+          <a href={wa(waTopic)} target="_blank" rel="noopener" data-wa="rodape"><Icon name="whatsapp" /> {site.contact.phone}</a>
+          <a href={`tel:${site.contact.phoneRaw}`} data-tel="rodape"><Icon name="phone" /> Ligar</a>
+          <a href={`mailto:${site.contact.email}`}><Icon name="mail" /> {site.contact.email}</a>
+          <a href={site.gmnUrl} target="_blank" rel="noopener"><Icon name="pin" /> Meu perfil no Google</a>
+          <a href={site.contact.mapsUrl} target="_blank" rel="noopener"><Icon name="pin" /> <span>{fullAddress}</span></a>
+        </address>
+      </div>
+      <div class="footer__bottom">
+        <p class="small muted">© {year} {site.name}. Atendimento no Rio de Janeiro e online para todo o Brasil.</p>
+        <p class="small muted">Google, Google Maps e Street View são marcas do Google LLC. A TMJL não é afiliada ao Google.</p>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wafloat" href={wa(waTopic)} target="_blank" rel="noopener" data-wa="flutuante" aria-label="Conversar no WhatsApp">
+    <Icon name="whatsapp" />
+  </a>
+
+  <script>
+    // Menu móvel
+    const btn = document.querySelector<HTMLButtonElement>('[data-menubtn]');
+    const menu = document.querySelector<HTMLElement>('[data-menu]');
+    const setMenu = (open: boolean) => {
+      if (!btn || !menu) return;
+      btn.setAttribute('aria-expanded', String(open));
+      menu.hidden = !open;
+      document.body.classList.toggle('menu-open', open);
+    };
+    btn?.addEventListener('click', () => setMenu(btn.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+    matchMedia('(min-width: 76rem)').addEventListener('change', (e) => e.matches && setMenu(false));
+
+    // Barra com fundo ao rolar
+    const bar = document.querySelector('[data-topbar]');
+    const onScroll = () => bar?.classList.toggle('is-scrolled', scrollY > 8);
+    addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+    // Eventos GA4: WhatsApp, telefone
+    document.addEventListener('click', (e) => {
+      const a = (e.target as HTMLElement).closest<HTMLElement>('[data-wa],[data-tel]');
+      const g = (window as any).gtag;
+      if (!a || typeof g !== 'function') return;
+      if (a.dataset.wa) g('event', 'clique_whatsapp', { local_botao: a.dataset.wa });
+      else g('event', 'clique_telefone', { local_botao: a.dataset.tel });
+    });
+
+    // Números que sobem até o valor real (o valor final já está no HTML)
+    const fmt = new Intl.NumberFormat('pt-BR');
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const cio = new IntersectionObserver((es) => es.forEach((en) => {
+      if (!en.isIntersecting) return;
+      cio.unobserve(en.target);
+      const el = en.target as HTMLElement;
+      const end = Number(el.dataset.count);
+      if (still || !end) return;
+      const t0 = performance.now(), dur = 1600;
+      const tick = (t: number) => {
+        const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt.format(Math.round(end * e));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }), { threshold: 0.4 });
+    document.querySelectorAll('[data-count]').forEach((el) => cio.observe(el));
+
+    // Uma revelação
+    const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>
+
+
+<style is:global>
+  html, body { overflow-x: clip; }
+</style>
+<style>
+  .topbar { position: sticky; top: 0; z-index: var(--z-sticky-nav); background: var(--color-paper); border-bottom: var(--rule-hair) solid transparent; transition: border-color var(--dur-short) var(--ease-out); }
+  .topbar.is-scrolled { border-bottom-color: var(--color-ink); }
+  .topbar__in { display: flex; align-items: center; gap: var(--space-lg); min-height: 72px; }
+  .brand { display: flex; align-items: center; gap: var(--space-sm); text-decoration: none; color: var(--color-ink); margin-right: auto; }
+  .brand__mark { width: 28px; height: auto; }
+  .brand__word { display: flex; flex-direction: column; font: 600 var(--text-lg)/1 var(--font-display); letter-spacing: var(--tracking-display); }
+  .brand__word small { font: 400 var(--text-xs)/1.3 var(--font-body); letter-spacing: 0; color: var(--color-muted); margin-top: var(--space-3xs); }
+  .mainnav { display: none; }
+  .mainnav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--space-lg); }
+  .mainnav a { display: block; white-space: nowrap; padding-block: var(--space-xs); font-weight: 500; font-size: var(--text-md); text-decoration: none; color: var(--color-ink-2); border-bottom: 2px solid transparent; }
+  .mainnav a:hover { color: var(--color-ink); }
+  .mainnav a[aria-current='page'] { color: var(--color-ink); border-bottom-color: var(--color-accent); }
+  .topbar__cta { display: none; }
+  .menubtn { display: inline-grid; place-items: center; width: 48px; height: 48px; margin-right: calc(var(--space-xs) * -1); background: none; border: 0; color: var(--color-ink); cursor: pointer; border-radius: var(--radius-pill); }
+  .menubtn :global(svg) { width: 26px; height: 26px; }
+  .mobilemenu { border-top: var(--rule-hair) solid var(--color-ink); background: var(--color-paper); height: calc(100dvh - 72px); overflow-y: auto; }
+  .mobilemenu ul { list-style: none; margin: 0; padding: var(--space-lg) 0; display: grid; }
+  .mobilemenu li a { display: block; padding-block: var(--space-md); font: 600 var(--text-2xl)/1.1 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-ink); text-decoration: none; border-bottom: var(--rule-hair) solid var(--color-rule); }
+  .mobilemenu .btn { width: 100%; margin-bottom: var(--space-xl); }
+  :global(body.menu-open) { overflow: hidden; }
+  @media (min-width: 76rem) {
+    .mainnav { display: block; }
+    .topbar__cta { display: inline-flex; }
+    .menubtn, .mobilemenu { display: none; }
+  }
+
+  .footer { background: var(--color-ink); color: var(--color-on-ink-muted); padding-block: var(--space-3xl) var(--space-xl); }
+  .footer__top { display: grid; gap: var(--space-xl); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 45rem) { .footer__top { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .footer__top { grid-template-columns: minmax(0, 4fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 4fr); } }
+  .footer__word { display: flex; align-items: center; gap: var(--space-sm); font: 600 var(--text-2xl)/1 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-on-ink); margin-bottom: var(--space-lg); }
+  .footer__word img { width: 32px; }
+  .footer__word small { font: 400 var(--text-xs)/1 var(--font-body); letter-spacing: 0; color: var(--color-on-ink-muted); align-self: flex-end; margin-bottom: var(--space-2xs); }
+  .footer__brand p { max-width: 36ch; font-size: var(--text-sm); color: var(--color-on-ink-muted); }
+  .footer__h { font: 500 var(--text-sm)/1.4 var(--font-body); letter-spacing: 0; color: var(--color-on-ink); margin-bottom: var(--space-md); }
+  .footer__list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-xs); font-size: var(--text-sm); }
+  .footer__list a { text-decoration: none; color: var(--color-on-ink-muted); }
+  .footer__list a:hover { color: var(--color-on-ink); }
+  .footer__nap { font-style: normal; display: grid; gap: var(--space-sm); font-size: var(--text-sm); align-content: start; }
+  .footer__nap a { display: flex; gap: var(--space-sm); align-items: flex-start; text-decoration: none; color: var(--color-on-ink); }
+  .footer__nap a:hover { text-decoration: underline; text-decoration-color: var(--color-accent); }
+  .footer__nap :global(svg) { width: 18px; height: 18px; flex-shrink: 0; margin-top: var(--space-3xs); color: var(--color-accent); }
+  .footer__bottom { margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: var(--rule-hair) solid var(--color-ink-line); display: grid; gap: var(--space-xs); }
+  .footer__bottom :global(p) { color: var(--color-on-ink-muted); font-size: var(--text-sm); max-width: 60ch; }
+  @media (min-width: 56rem) { .footer__bottom { display: flex; justify-content: space-between; gap: var(--space-xl); } }
+
+  .wafloat { position: fixed; right: var(--space-md); bottom: var(--space-md); z-index: var(--z-sticky); display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--color-whatsapp); color: var(--color-on-ink); box-shadow: var(--shadow-lift); transition: transform var(--dur-short) var(--ease-out); }
+  .wafloat:hover { transform: translateY(-2px); }
+  .wafloat :global(svg) { width: 28px; height: 28px; }
+</style>

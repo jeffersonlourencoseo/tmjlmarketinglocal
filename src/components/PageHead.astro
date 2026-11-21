@@ -1,0 +1,33 @@
+---
+interface Props { crumbs: { name: string; path: string }[]; title: string; lead?: string }
+const { crumbs, title, lead } = Astro.props;
+---
+<header class="ph">
+  <div class="container">
+    <nav aria-label="Você está em" class="crumbs">
+      <ol>
+        <li><a href="/">Início</a></li>
+        {crumbs.map((c, i) => <li>{i === crumbs.length - 1 ? <span aria-current="page">{c.name}</span> : <a href={c.path}>{c.name}</a>}</li>)}
+      </ol>
+    </nav>
+    <div class="ph__grid">
+      <h1>{title}</h1>
+      <div class="ph__side">
+        {lead && <p class="lead">{lead}</p>}
+        <slot />
+      </div>
+    </div>
+  </div>
+</header>
+<style>
+  .ph { padding-block: var(--space-lg) var(--space-3xl); border-bottom: var(--rule-hair) solid var(--color-ink); }
+  .crumbs ol { list-style: none; margin: 0 0 var(--space-2xl); padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-xs); font-size: var(--text-sm); color: var(--color-muted); }
+  .crumbs li + li::before { content: '/'; margin-right: var(--space-xs); color: var(--color-rule); }
+  .crumbs a { color: var(--color-muted); text-decoration: none; }
+  .crumbs a:hover { color: var(--color-ink); text-decoration: underline; }
+  .crumbs [aria-current] { color: var(--color-ink-2); }
+  .ph__grid { display: grid; gap: var(--space-xl); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 60rem) { .ph__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; gap: var(--space-2xl); } }
+  .ph h1 { max-width: 14ch; text-wrap: balance; }
+  .ph__side { display: grid; gap: var(--space-lg); justify-items: start; }
+</style>
